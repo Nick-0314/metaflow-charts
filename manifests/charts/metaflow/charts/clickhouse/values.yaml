@@ -131,36 +131,7 @@ podAntiAffinityLabelSelector:
       values: clickhouse
     topologyKey: "kubernetes.io/hostname"
 podAntiAffinityTermLabelSelector: []
-  # - labelSelector:
-  #     - key: app
-  #       operator: In
-  #       values: metaflow,metaflowys
-  #   topologyKey: "kubernetes.io/hostname"
-  #   weight: 11
 podAffinityLabelSelector: []
-  # - labelSelector:
-  #   - key: app
-  #     operator: In
-  #     values: metaflow
-  #   - key: component
-  #     operator: In
-  #     values: metaflow-server
-  #   topologyKey: "kubernetes.io/hostname"
 podAffinityTermLabelSelector: []
-  # - topologyKey: kubernetes.io/hostname
-  #   weight: 10
-  #   labelSelector:
-  #     - key: app
-  #       operator: In
-  #       values: metaflow,metaflowys
 nodeAffinityLabelSelector: []
-  # - matchExpressions:
-  #     - key: app
-  #       operator: In
-  #       values: metaflow,metaflowys
 nodeAffinityTermLabelSelector: []
-  # - weight: 10
-  #   matchExpressions:
-  #   - key: app
-  #     operator: In
-  #     values: metaflow,metaflowys

@@ -48,12 +48,16 @@ spec:
             - containerPort: 20416
               name: querier
               protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: server
           readinessProbe:
             tcpSocket:
               port: server
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: server
+            initialDelaySeconds: 15
+            periodSeconds: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
@@ -70,8 +74,12 @@ spec:
           ports:
             - containerPort: 4040
           resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
             requests:
               cpu: 100m
+              memory: 128Mi
           env:
           - name: NODE_IP
             valueFrom:
