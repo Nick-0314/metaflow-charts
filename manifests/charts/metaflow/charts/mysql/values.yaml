@@ -1,7 +1,5 @@
-# Default values for redis.
+# Default values for mysql.
 # This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 # Declare variables to be passed into your templates.
 global:
   podAntiAffinityLabelSelector: []
@@ -14,29 +12,46 @@ global:
 replicas: 1
 
 image:
-  repository: redis
+  repository: mysql
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "6.2.6"
+  tag: "8.0.26"
+
 hostNetwork: "false"
 dnsPolicy: ClusterFirst
-requirepass: metaflow
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+password: metaflow
 
 podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+storageConfig:
+  ## persistentVolumeClaim/hostPath
+  type: persistentVolumeClaim
+  hostPath: /opt/metaflow-mysql
+  persistence:
+    storageClass: "-"
+    annotations:
+      "helm.sh/resource-policy": keep
+    # existingClaim: your-claim-pvc-name
+    accessMode: ReadWriteOnce
+    size: 50Gi 
+    
+externalMySQL:
+  enabled: false
+  hostIP: 192.168.1.1
+  port: 30130
 
 service:
   ## Configuration for Clickhouse service
@@ -50,8 +65,8 @@ service:
 
   ports:
   - name: tcp
-    port: 6379
-    targetPort: 6379
+    port: 30130
+    targetPort: 30130
     nodePort: 
     protocol: TCP
   ## Additional ports to open for server service
@@ -69,6 +84,7 @@ service:
   ##
   type: ClusterIP
 
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -81,11 +97,9 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-
 nodeSelector: {}
 
 tolerations: []
-
 
 podAntiAffinityLabelSelector: []
 podAntiAffinityTermLabelSelector: []
@@ -93,3 +107,4 @@ podAffinityLabelSelector: []
 podAffinityTermLabelSelector: []
 nodeAffinityLabelSelector: []
 nodeAffinityTermLabelSelector: []
+

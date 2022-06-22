@@ -18,6 +18,8 @@ spec:
       labels:
         {{- include "redis.selectorLabels" . | nindent 8 }}
     spec:
+      hostNetwork: {{ tpl .Values.hostNetwork . }}
+      dnsPolicy: {{ tpl .Values.dnsPolicy . }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -29,7 +31,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ tpl .Values.image.repository . }}:{{ tpl .Values.image.tag . }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ tpl .Values.image.pullPolicy . }}
           ports:
             - name: tcp
               containerPort: 6379

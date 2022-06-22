@@ -1,6 +1,13 @@
 # Default values for clickhouse.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+global:
+  podAntiAffinityLabelSelector: []
+  podAntiAffinityTermLabelSelector: []
+  podAffinityLabelSelector: []
+  podAffinityTermLabelSelector: []
+  nodeAffinityLabelSelector: []
+  nodeAffinityTermLabelSelector: []
 
 replicas: "1"
 hostNetwork: "false"
