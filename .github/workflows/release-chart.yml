@@ -21,7 +21,8 @@ jobs:
       - name: Modify chart version
         run: |
           sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
-          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml                 
+          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml
+          cp -rf manifests/charts/metaflow-agent manifests/charts/metaflow/charts/
 
       - name: Configure Git
         run: |
@@ -32,40 +33,6 @@ jobs:
         uses: azure/setup-helm@v1
         with:
           version: v3.8.1
-
-      - name: remove metaflow
-        run: |
-          rm -rf manifests/charts/metaflow
-
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.4.0
-        with:
-          charts_dir: manifests/charts
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Modify chart version
-        run: |
-          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
-          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml   
-          rm -rf manifests/charts/metaflow-agent
-          cat manifests/charts/metaflow/Chart.yaml
-          helm repo add metaflow https://mytting.github.io/metaflow-charts
-          timeout 300 bash -c -- '\
-            while true; \
-              do \
-                helm repo update; \
-                CrashCount=$(helm search repo metaflow-agent|grep $(git rev-list --count HEAD) | wc -l || true); \
-                if [ "${CrashCount}" -eq "1" ];\
-                then echo "All Success." && break ;\
-                 else echo "Something Wrong,Next loop " && sleep 2 ;\
-                 continue ; fi  \
-                 ;done'
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0

@@ -25,8 +25,8 @@ appVersion: "22.7"
 
 dependencies:
 - name: metaflow-agent
-  version: '0.1.XXX'
-  repository: "https://mytting.github.io/metaflow-charts"
+  repository: ""
+  version: '*.*.*'
 - name: clickhouse
   repository: ""
   version: '*.*.*'
