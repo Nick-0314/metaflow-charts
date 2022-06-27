@@ -3,9 +3,10 @@
 # Declare variables to be passed into your templates.
 global:
   image:
+    ## ghcr Image repository address: ghcr.io/metaflowys/metaflow-server
     ## Dockerhub Image repository address: metaflowys/metaflow-server
     ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/metaflowys/metaflow-server
-    repository: registry.cn-beijing.aliyuncs.com/metaflowys
+    repository: metaflowys/metaflow-server
     pullPolicy: Always
   hostNetwork: false
   dnsPolicy: ClusterFirst
@@ -569,7 +570,7 @@ metaflow-agent:
 
   podSecurityContext: {}
     # fsGroup: 2000
-
+  hostNetwork: "true"
   securityContext: 
     privileged: true
     # capabilities:

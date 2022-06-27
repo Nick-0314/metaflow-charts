@@ -24,7 +24,7 @@ podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
-
+hostNetwork: "true"
 securityContext: 
   privileged: true
   # capabilities:
