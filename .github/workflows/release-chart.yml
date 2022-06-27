@@ -48,7 +48,7 @@ jobs:
 
       - name: Deploy to GitHub Pages
         if: success()
-        uses: crazy-max/ghaction-github-pages@v3
+        uses: actions/deploy-pages@v1
         with:
           target_branch: gh-pages
           build_dir: /
@@ -66,8 +66,6 @@ jobs:
           sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/mysql/Chart.yaml
           sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
           sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml            
-          helm repo add metaflow https://mytting.github.io/metaflow-charts
-          helm repo update
           cat manifests/charts/metaflow/Chart.yaml
 
       - name: Run chart-releaser
