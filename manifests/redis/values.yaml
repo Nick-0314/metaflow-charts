@@ -1,5 +1,7 @@
-# Default values for metaflow-agent.
+# Default values for redis.
 # This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
 # Declare variables to be passed into your templates.
 global:
   podAntiAffinityLabelSelector: []
@@ -9,14 +11,16 @@ global:
   nodeAffinityLabelSelector: []
   nodeAffinityTermLabelSelector: []
 
-replicaCount: 1
+replicas: 1
 
 image:
-  repository: registry.cn-beijing.aliyuncs.com/metaflowys/metaflow-agent
+  repository: redis
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
-
+  tag: "6.2.6"
+hostNetwork: "false"
+dnsPolicy: ClusterFirst
+requirepass: metaflow
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -26,8 +30,7 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext: 
-  privileged: true
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -46,12 +49,11 @@ service:
   ##
 
   ports:
-  - name: otel
-    port: 4317
-    targetPort: 4317
+  - name: tcp
+    port: 6379
+    targetPort: 6379
     nodePort: 
     protocol: TCP
-
   ## Additional ports to open for server service
   additionalPorts: []
 
@@ -61,19 +63,12 @@ service:
 
   ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
   ## must be Local
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
 
   ## Service type
   ##
   type: ClusterIP
 
-metaflowAgentConfig: 
-  metaflow-agent.yaml: |
-    controller-ips:
-    - metaflow-server
-    kubernetes-cluster-id: __K8S_CLUSTER_ID__
-    ingress-flavour: __INGRESS_FLAVOUR__
-    vtap-group-id-request: "__VTAPGROUPID__"
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -91,10 +86,10 @@ nodeSelector: {}
 
 tolerations: []
 
+
 podAntiAffinityLabelSelector: []
 podAntiAffinityTermLabelSelector: []
 podAffinityLabelSelector: []
 podAffinityTermLabelSelector: []
 nodeAffinityLabelSelector: []
 nodeAffinityTermLabelSelector: []
-

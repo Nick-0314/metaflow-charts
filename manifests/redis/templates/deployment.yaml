@@ -1,65 +1,64 @@
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
-  name: {{ include "metaflow-agent.fullname" . }}
+  name: {{ include "redis.fullname" . }}
   labels:
-    {{- include "metaflow-agent.labels" . | nindent 4 }}
+    {{- include "redis.labels" . | nindent 4 }}
 spec:
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      {{- include "metaflow-agent.selectorLabels" . | nindent 6 }}
+      {{- include "redis.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
-        container.apparmor.security.beta.kubernetes.io/metaflow-agent: unconfined
       {{- end }}
       labels:
-        {{- include "metaflow-agent.selectorLabels" . | nindent 8 }}
+        {{- include "redis.selectorLabels" . | nindent 8 }}
     spec:
+      hostNetwork: {{ tpl .Values.hostNetwork . }}
+      dnsPolicy: {{ tpl .Values.dnsPolicy . }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "metaflow-agent.fullname" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: redis
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ tpl .Values.image.repository . }}:{{ tpl .Values.image.tag .}}"
+          image: "{{ tpl .Values.image.repository . }}:{{ tpl .Values.image.tag . }}"
           imagePullPolicy: {{ tpl .Values.image.pullPolicy . }}
           ports:
-            - name: otel
-              containerPort: 4317
+            - name: tcp
+              containerPort: 6379
               protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: otel
-            initialDelaySeconds: 5
-            periodSeconds: 10
           readinessProbe:
             tcpSocket:
-              port: otel
+              port: tcp
             initialDelaySeconds: 5
             periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: tcp
+            initialDelaySeconds: 15
+            periodSeconds: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - name: sys-kernel-debug
-              mountPath: /sys/kernel/debug
-              readOnly: true
-            - name: metaflow-agent-conf
-              mountPath: /etc/metaflow-agent
+          - name: redis-config
+            mountPath: /etc/redis.conf
+            subPath: redis.conf
       volumes:
-        - name: sys-kernel-debug
-          hostPath:
-            path: /sys/kernel/debug
-        - name: metaflow-agent-conf
+        - name: redis-config
           configMap:
-            name: {{ include "metaflow-agent.fullname" . }}
+            name: {{ include "redis.fullname" . }}
+            items:
+            - key: redis.conf
+              path: redis.conf
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -18,6 +18,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Modify chart version
+        run: |
+          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/clickhouse/Chart.yaml
+          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/mysql/Chart.yaml
+          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
+          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml       
+
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
@@ -43,6 +50,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Modify chart version
+        run: |
+          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/clickhouse/Chart.yaml
+          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/mysql/Chart.yaml
+          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
+          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml            
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0

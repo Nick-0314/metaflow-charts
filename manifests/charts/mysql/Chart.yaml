@@ -1,5 +1,5 @@
 apiVersion: v2
-name: metaflow
+name: mysql
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -21,15 +21,4 @@ version: 0.1.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "22.7"
-
-dependencies:
-- name: metaflow-agent
-  version: '0.1.0'
-  repository: "https://mytting.github.io/metaflow-charts"
-- name: clickhouse
-  repository: "https://mytting.github.io/metaflow-charts"
-  version: '0.1.0'
-- name: mysql
-  repository: "https://mytting.github.io/metaflow-charts"
-  version: '0.1.0'
+appVersion: "8.0.26"
