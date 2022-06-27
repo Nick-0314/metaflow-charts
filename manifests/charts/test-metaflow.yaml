@@ -1,0 +1,108 @@
+service:
+  server:
+    ## Configuration for Metaflow-server service
+    ##
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+    ## Port for Metaflow-server Service to listen on
+    ##
+
+    ports:
+    - name: server
+      port: 20417
+      targetPort: 20417
+      nodePort: 30419
+      protocol: TCP
+    - name: grpc
+      port: 20035
+      targetPort: 20035
+      nodePort: 30036
+      protocol: TCP
+    - name: ssl-grpc
+      port: 20135
+      targetPort: 20135
+      nodePort: 30136
+      protocol: TCP
+
+    ## Additional ports to open for server service
+    additionalPorts: []
+
+    externalIPs: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+
+    ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
+    ## must be Local
+    externalTrafficPolicy: Local
+
+    ## Service type
+    ##
+    type: NodePort
+  querier:
+    ## Configuration for Metaflow querier service
+    ##
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+    ## Port for Metaflow querier service to listen on
+    ##
+    ports:
+    - name: querier
+      port: 20416
+      targetPort: 20416
+      ## Port to expose on each node
+      ## Only used if service.type is 'NodePort'
+      ##
+      nodePort: 30217
+      protocol: TCP
+
+    ## Additional ports to open for Metaflow querier service
+    additionalPorts: []
+
+    externalIPs: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+
+    ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
+    ##
+    externalTrafficPolicy: Cluster
+
+    ## Service type
+    ##
+    type: NodePort
+
+
+mysql:
+  # securityContext:
+  #   privileged: true
+  storageConfig:
+    hostPathChownContainerEnabled: true
+    ## persistentVolumeClaim/hostPath
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    type: hostPath
+    hostPath: /opt/metaflow-44444455
+  nodeAffinityLabelSelector: 
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: node1
+
+clickhouse:
+  storageConfig:
+    ## persistentVolumeClaim/hostPath
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    type: hostPath
+  nodeAffinityLabelSelector: 
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: node1

@@ -94,7 +94,7 @@ service:
 
     ## Service type
     ##
-    type: ClusterIP
+    type: NodePort
 
   querier:
     ## Configuration for Metaflow querier service
@@ -334,7 +334,7 @@ clickhouse:
   storageConfig:
     ## persistentVolumeClaim/hostPath
     ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
-    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    ## 如果使用hostPath存储clickhouse数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
     type: persistentVolumeClaim 
     hostPath: /opt/metaflow-clickhouse
     persistence:
@@ -462,6 +462,9 @@ mysql:
     # fsGroup: 2000
 
   securityContext:
+    ## If your mysql cannot start with hostPath, please open Privileged
+    ## 如果你的mysql使用hostPath无法启动，请打开privileged
+    # privileged: true
     # capabilities:
     #   drop:
     #   - ALL
@@ -474,6 +477,7 @@ mysql:
     ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
     type: persistentVolumeClaim
     hostPath: /opt/metaflow-mysql
+    hostPathChownContainerEnabled: true
     persistence:
       storageClass: "-"
       annotations:
@@ -547,4 +551,95 @@ mysql:
     #       operator: In
     #       values: controller
   nodeAffinityTermLabelSelector: []
+
+
+metaflow-agent:
+
+  image:
+    repository: "{{ .Values.global.image.repository }}/metaflow-agent"
+    pullPolicy: "{{ .Values.global.image.pullPolicy }}"
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: latest
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: 
+    privileged: true
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    ## Configuration for Clickhouse service
+    ##
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+    ## Port for Clickhouse Service to listen on
+    ##
+
+    ports:
+    - name: otel
+      port: 4317
+      targetPort: 4317
+      nodePort: 
+      protocol: TCP
+
+    ## Additional ports to open for server service
+    additionalPorts: []
+
+    externalIPs: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+
+    ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
+    ## must be Local
+    externalTrafficPolicy: Local
+
+    ## Service type
+    ##
+    type: ClusterIP
+
+  metaflowAgentConfig: 
+    metaflow-agent.yaml: |
+      controller-ips:
+      - metaflow-server
+      # kubernetes-cluster-id: __K8S_CLUSTER_ID__
+      # ingress-flavour: __INGRESS_FLAVOUR__
+      # vtap-group-id-request: "__VTAPGROUPID__"
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  podAntiAffinityLabelSelector: []
+  podAntiAffinityTermLabelSelector: []
+  podAffinityLabelSelector: []
+  podAffinityTermLabelSelector: []
+  nodeAffinityLabelSelector: []
+  nodeAffinityTermLabelSelector: []
+
 

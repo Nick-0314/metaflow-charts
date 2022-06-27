@@ -9,7 +9,6 @@ global:
   nodeAffinityLabelSelector: []
   nodeAffinityTermLabelSelector: []
 
-replicaCount: 1
 
 image:
   repository: registry.cn-beijing.aliyuncs.com/metaflowys/metaflow-agent

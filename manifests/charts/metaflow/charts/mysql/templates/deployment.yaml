@@ -32,7 +32,7 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- if eq .Values.storageConfig.type "hostPath" }}
+      {{- if and (eq $.Values.storageConfig.type "hostPath") ($.Values.storageConfig.hostPathChownContainerEnabled) }}
       initContainers:
       - name: hostpath-chown
         image: "{{ tpl .Values.image.repository . }}:{{ tpl .Values.image.tag . }}"
