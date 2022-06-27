@@ -59,6 +59,7 @@ jobs:
           sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml            
           helm repo add metaflow https://mytting.github.io/metaflow-charts
           helm repo update
+          cat manifests/charts/metaflow/Chart.yaml
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
