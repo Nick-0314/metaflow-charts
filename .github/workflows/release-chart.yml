@@ -20,10 +20,10 @@ jobs:
 
       - name: Modify chart version
         run: |
-          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/clickhouse/Chart.yaml
-          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/mysql/Chart.yaml
-          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
-          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml       
+          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/clickhouse/Chart.yaml
+          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/mysql/Chart.yaml
+          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
+          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml                 
 
       - name: Configure Git
         run: |
@@ -53,10 +53,12 @@ jobs:
 
       - name: Modify chart version
         run: |
-          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/clickhouse/Chart.yaml
-          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/mysql/Chart.yaml
-          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
-          sed -i "s|0.1.0|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml            
+          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/clickhouse/Chart.yaml
+          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/mysql/Chart.yaml
+          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
+          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml            
+          helm repo add metaflow https://mytting.github.io/metaflow-charts
+          helm repo update
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
