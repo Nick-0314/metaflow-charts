@@ -5,7 +5,7 @@ global:
   image:
     ## Dockerhub Image repository address: metaflowys/metaflow-server
     ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/metaflowys/metaflow-server
-    repository: ghcr.io/metaflowys/metaflow-server
+    repository: registry.cn-beijing.aliyuncs.com/metaflowys
     pullPolicy: Always
   hostNetwork: false
   dnsPolicy: ClusterFirst
@@ -161,12 +161,15 @@ podAntiAffinityTermLabelSelector: []
   #       values: metaflow,metaflowys
   #   topologyKey: "kubernetes.io/hostname"
   #   weight: 11
-podAffinityLabelSelector: []
-  # - topologyKey: kubernetes.io/hostname
-  #   labelSelector:
-  #     - key: app
-  #       operator: In
-  #       values: metaflow,metaflowys
+podAffinityLabelSelector:
+  - labelSelector:
+    - key: app
+      operator: In
+      values: metaflow
+    - key: component
+      operator: In
+      values: clickhouse
+    topologyKey: "kubernetes.io/hostname"
 podAffinityTermLabelSelector: []
   # - topologyKey: kubernetes.io/hostname
   #   weight: 10
@@ -201,13 +204,6 @@ metaflowServerConfig: |
         user-password: "{{ .Values.global.password.mysql }}"
         host: "{{ $.Release.Name }}-mysql"
         port: 30130
-        timeout: 30
-      ## redis config
-      redis:
-        dimension_resource_database: 2
-        password: "{{ .Values.global.password.redis }}"
-        host: "{{ $.Release.Name }}-redis"
-        port: 6379
         timeout: 30
       ## clickhouse config
       clickhouse:
@@ -336,7 +332,8 @@ clickhouse:
     # runAsUser: 1000
   storageConfig:
     ## persistentVolumeClaim/hostPath
-    ## If you use hostPath, you must configure nodeAffinity, otherwise your data will be lost when Pod drifts
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
     type: persistentVolumeClaim 
     hostPath: /opt/metaflow-clickhouse
     persistence:
@@ -442,31 +439,15 @@ clickhouse:
   podAffinityLabelSelector: []
   podAffinityTermLabelSelector: []
   nodeAffinityLabelSelector: []
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    # - matchExpressions:
+    #     - key: kubernetes.io/hostname
+    #       operator: In
+    #       values: controller
   nodeAffinityTermLabelSelector: []
 
-redis:
-  requirepass: "{{ .Values.global.password.redis }}"
-
 mysql:
-  # Default values for mysql.
-  # This is a YAML-formatted file.
-  # Declare variables to be passed into your templates.
-  global:
-    podAntiAffinityLabelSelector: []
-    podAntiAffinityTermLabelSelector: []
-    podAffinityLabelSelector: []
-    podAffinityTermLabelSelector: []
-    nodeAffinityLabelSelector: []
-    nodeAffinityTermLabelSelector: []
-
-  replicas: 1
-
-  image:
-    repository: mysql
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: "8.0.26"
-
   hostNetwork: "false"
   dnsPolicy: ClusterFirst
   imagePullSecrets: []
@@ -488,7 +469,8 @@ mysql:
     # runAsUser: 0
   storageConfig:
     ## persistentVolumeClaim/hostPath
-    ## If you use hostPath, you must configure nodeAffinity, otherwise your data will be lost when Pod drifts
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
     type: persistentVolumeClaim
     hostPath: /opt/metaflow-mysql
     persistence:
@@ -557,5 +539,11 @@ mysql:
   podAffinityLabelSelector: []
   podAffinityTermLabelSelector: []
   nodeAffinityLabelSelector: []
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    # - matchExpressions:
+    #     - key: kubernetes.io/hostname
+    #       operator: In
+    #       values: controller
   nodeAffinityTermLabelSelector: []
 

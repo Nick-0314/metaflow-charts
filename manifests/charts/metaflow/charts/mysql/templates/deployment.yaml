@@ -1,4 +1,7 @@
 {{- if not .Values.externalMySQL.enabled }}
+{{- if and  (eq $.Values.storageConfig.type "hostPath") (not $.Values.nodeAffinityLabelSelector)  }}
+{{- fail "You must set nodeAffinityLabelSelector"  -}}
+{{- end}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
