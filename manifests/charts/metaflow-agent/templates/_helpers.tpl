@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "metaflow.name" -}}
+{{- define "metaflow-agent.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "metaflow.fullname" -}}
+{{- define "metaflow-agent.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "metaflow.chart" -}}
+{{- define "metaflow-agent.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "metaflow.labels" -}}
-helm.sh/chart: {{ include "metaflow.chart" . }}
-{{ include "metaflow.selectorLabels" . }}
+{{- define "metaflow-agent.labels" -}}
+helm.sh/chart: {{ include "metaflow-agent.chart" . }}
+{{ include "metaflow-agent.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,19 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "metaflow.selectorLabels" -}}
-app: metaflow
-component: metaflow-server
-app.kubernetes.io/name: {{ include "metaflow.name" . }}
+{{- define "metaflow-agent.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "metaflow-agent.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "metaflow.serviceAccountName" -}}
+{{- define "metaflow-agent.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "metaflow.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "metaflow-agent.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

@@ -191,7 +191,8 @@ nodeAffinityTermLabelSelector: []
 
 
 
-metaflowServerConfig: |
+metaflowServerConfig:
+  server.yaml: |
     controller:
       ## logfile path
       log-file: /var/log/metaflow/server.log

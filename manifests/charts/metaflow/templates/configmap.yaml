@@ -4,5 +4,5 @@ metadata:
   name: {{ include "metaflow.fullname" . }}-server
   labels:
     {{- include "metaflow.labels" . | nindent 4 }}
-data:
-  server.yaml: {{ tpl (toYaml .Values.metaflowServerConfig) $ | indent 2 }}
+data: |
+  {{- tpl (toYaml .Values.metaflowServerConfig) $ | nindent 2 }}
