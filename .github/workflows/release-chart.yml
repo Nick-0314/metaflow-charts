@@ -45,7 +45,15 @@ jobs:
           charts_dir: manifests/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
+          
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -58,6 +66,7 @@ jobs:
           sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
           sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml            
           cat manifests/charts/metaflow/Chart.yaml
+          sleep 100
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
