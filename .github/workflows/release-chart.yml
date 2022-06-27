@@ -53,11 +53,10 @@ jobs:
 
       - name: Modify chart version
         run: |
-          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/clickhouse/Chart.yaml
-          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/mysql/Chart.yaml
-          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
-          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml            
+          sed -i "s|XXX|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml   
+          rm -rf manifests/charts/metaflow-agentvi
           cat manifests/charts/metaflow/Chart.yaml
+          sleep 200
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
