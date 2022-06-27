@@ -58,7 +58,8 @@ jobs:
           timeout 300 bash -c -- '\
             while true; \
               do \
-                CrashCount=$( helm search repo metaflow-agent|grep $(git rev-list --count HEAD) | wc -l || true); \
+                helm repo update; \
+                CrashCount=$(helm search repo metaflow-agent|grep $(git rev-list --count HEAD) | wc -l || true); \
                 if [ "${CrashCount}" -eq "1" ];\
                 then echo "All Success." && break ;\
                  else echo "Something Wrong,Next loop " && sleep 2 ;\
