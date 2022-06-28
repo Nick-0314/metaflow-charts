@@ -2,7 +2,7 @@ global:
   image:
     ## Dockerhub Image repository address: metaflowys/metaflow-server
     ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/metaflowys/metaflow-server
-    repository: registry.cn-beijing.aliyuncs.com/metaflowys/metaflow-server
+    repository: registry.cn-beijing.aliyuncs.com/metaflowys
 service:
   server:
     ## Configuration for Metaflow-server service
@@ -89,7 +89,7 @@ mysql:
     ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
     ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
     type: hostPath
-    hostPath: /opt/metaflow-44444455
+    hostPath: /opt/metaflow-443355
   nodeAffinityLabelSelector: 
     ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
     ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失

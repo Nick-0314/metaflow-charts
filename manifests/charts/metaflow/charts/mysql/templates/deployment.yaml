@@ -72,6 +72,8 @@ spec:
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: {{ tpl .Values.password . }}
+            - name: MYSQL_DATABASE
+              value: grafana
           volumeMounts:
           - name: mysql-config
             mountPath: /etc/my.cnf

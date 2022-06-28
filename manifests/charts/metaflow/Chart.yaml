@@ -33,3 +33,6 @@ dependencies:
 - name: mysql
   repository: ""
   version: '*.*.*'
+- name: grafana
+  version: "6.31.1"
+  repository: https://grafana.github.io/helm-charts

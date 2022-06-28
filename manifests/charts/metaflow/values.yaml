@@ -3,10 +3,10 @@
 # Declare variables to be passed into your templates.
 global:
   image:
-    ## ghcr Image repository address: ghcr.io/metaflowys/metaflow-server
-    ## Dockerhub Image repository address: metaflowys/metaflow-server
-    ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/metaflowys/metaflow-server
-    repository: metaflowys/metaflow-server
+    ## ghcr Image repository address: ghcr.io/metaflowys
+    ## Dockerhub Image repository address: metaflowys
+    ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/metaflowys
+    repository: metaflowys
     pullPolicy: Always
   hostNetwork: false
   dnsPolicy: ClusterFirst
@@ -455,7 +455,7 @@ mysql:
   imagePullSecrets: []
   nameOverride: ""
   fullnameOverride: ""
-  password: metaflow
+  password: "{{ .Values.global.password.mysql }}"
 
   podAnnotations: {}
 
@@ -644,3 +644,59 @@ metaflow-agent:
   nodeAffinityTermLabelSelector: []
 
 
+grafana:
+  enabled: true
+  namespaceOverride: ""
+
+  ## ForceDeployDatasources Create datasource configmap even if grafana deployment has been disabled
+  ##
+  forceDeployDatasources: false
+
+  ## ForceDeployDashboard Create dashboard configmap even if grafana deployment has been disabled
+  ##
+  forceDeployDashboards: false
+
+  ## Deploy default dashboards
+  ##
+  defaultDashboardsEnabled: true
+
+  ## Timezone for the default dashboards
+  ## Other options are: browser or a specific timezone, i.e. Europe/Luxembourg
+  ##
+  defaultDashboardsTimezone: utc
+  adminPassword: metaflow
+  grafana.ini:
+    paths:
+      plugins: /var/lib/grafana/plugins
+    analytics:
+      check_for_updates: true
+    log:
+      mode: console
+    database:
+      type: mysql
+      host: "{{ $.Release.Name }}-mysql:30130"
+      name: grafana
+      user: root
+      password: "{{ .Values.global.password.mysql }}"
+    plugins:
+      allow_loading_unsigned_plugins: metaflow
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+
+      ## Annotations for Grafana dashboard configmaps
+      ##
+      annotations: {}
+      provider:
+        allowUiUpdates: false
+  datasources: {}
+  #  datasources.yaml:
+  #    apiVersion: 1
+  #    datasources:
+  #    - name: MetaFlow
+  #      type: metaflow
+  #      url: "http://{{ $.Release.Name }}-querier:20416"
+  #      access: proxy
+  #      isDefault: true

@@ -533,7 +533,7 @@ data:
             {{range $i, $e := until (atoi (printf "%d" (int64 ( tpl .Values.replicas . )))) }}
                 <shard>
                      <replica>
-                          <host>{{ $.Release.Name }}-headless-{{$i}}</host>
+                          <host>{{ $.Release.Name }}-clickhouse-headless-{{$i}}</host>
                           <port>9000</port>
                      </replica>
                 </shard>
