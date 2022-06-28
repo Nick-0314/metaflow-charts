@@ -555,7 +555,7 @@ mysql:
 
 
 metaflow-agent:
-
+  enabled: true
   image:
     repository: "{{ .Values.global.image.repository }}/metaflow-agent"
     pullPolicy: "{{ .Values.global.image.pullPolicy }}"
@@ -665,6 +665,18 @@ grafana:
   ##
   defaultDashboardsTimezone: utc
   adminPassword: metaflow
+
+  service:
+    enabled: true
+    type: NodePort
+
+  rbac:
+    create: true
+  ## Use an existing ClusterRole/Role (depending on rbac.namespaced false/true)
+  # useExistingRole: name-of-some-(cluster)role
+    pspEnabled: false
+    namespaced: true
+
   grafana.ini:
     paths:
       plugins: /var/lib/grafana/plugins
@@ -691,6 +703,20 @@ grafana:
       annotations: {}
       provider:
         allowUiUpdates: false
+  extraInitContainers:
+    - name: init-custom-plugins
+      image: "{{ .Values.global.image.repository }}/metaflow-init-grafana:latest"
+      command: ['sh']
+      args:  
+      - '-c'
+      - "cp -raf /metaflow-plugins/* /var/lib/grafana/plugins/"
+      volumeMounts:
+      - mountPath: /var/lib/grafana/plugins/
+        name: custom-plugins
+
+  extraEmptyDirMounts: 
+    - name: custom-plugins
+      mountPath: /var/lib/grafana/plugins
   datasources: {}
   #  datasources.yaml:
   #    apiVersion: 1

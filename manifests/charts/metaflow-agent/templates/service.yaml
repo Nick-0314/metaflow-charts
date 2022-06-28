@@ -47,20 +47,3 @@ spec:
   selector:
     {{- include "metaflow-agent.selectorLabels" . | nindent 4 }}
   type: "{{ .Values.service.type }}"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "metaflow-agent.fullname" . }}-headless
-  labels:
-    {{- include "metaflow-agent.labels" . | nindent 4 }}
-spec:
-  clusterIP: None
-  ports:
-  - name: tcp
-    port: 9000
-    targetPort: 9000
-    protocol: TCP
-  selector:
-    {{- include "metaflow-agent.selectorLabels" . | nindent 4 }}
-  type: ClusterIP

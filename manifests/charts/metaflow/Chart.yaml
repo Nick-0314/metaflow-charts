@@ -27,6 +27,7 @@ dependencies:
 - name: metaflow-agent
   repository: ""
   version: '*.*.*'
+  condition: metaflow-agent.enabled
 - name: clickhouse
   repository: ""
   version: '*.*.*'
