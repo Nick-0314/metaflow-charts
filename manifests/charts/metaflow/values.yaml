@@ -54,6 +54,8 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+ntp_server: ntp1.cloud.aliyuncs.com
+
 service:
   server:
     ## Configuration for Metaflow-server service
@@ -190,8 +192,6 @@ nodeAffinityTermLabelSelector: []
   #     operator: In
   #     values: metaflow,metaflowys
 
-
-
 metaflowServerConfig:
   server.yaml: |
     controller:
@@ -255,7 +255,7 @@ metaflowServerConfig:
       trisolaris:
         tsdb_ip:
         chrony:
-          host: "{{ .Values.global.ntp_server }}"
+          host: "{{ tpl .Values.ntp_server . }}"
           port: 123
           timeout: 1
         # - 127.0.0.1
@@ -299,6 +299,8 @@ metaflowServerConfig:
         port: 30900
         timeout: 60
         host: "{{ $.Release.Name }}-clickhouse"
+    ingester:
+      ckdb-service-prefix: "{{ $.Release.Name }}-clickhouse-headless"
 
 
 clickhouse:

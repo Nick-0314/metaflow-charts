@@ -64,6 +64,11 @@ spec:
           - name: server-config
             mountPath: /etc/server.yaml
             subPath: server.yaml
+          env:
+          - name: NODE_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
         - image: "{{ tpl .Values.image.elector.repository . }}:{{ tpl .Values.image.elector.tag . }}"
           imagePullPolicy: "{{ tpl .Values.image.elector.pullPolicy . }}"
           name: elector
@@ -80,11 +85,6 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-          env:
-          - name: NODE_IP
-            valueFrom:
-              fieldRef:
-                fieldPath: status.hostIP
       volumes:
         - name: server-config
           configMap:
