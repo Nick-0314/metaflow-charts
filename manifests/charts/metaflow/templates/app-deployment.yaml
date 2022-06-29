@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "metaflow.fullname" . }}-app
+  labels:
+    {{- include "metaflow-app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ tpl .Values.app.replicas . }}
+  selector:
+    matchLabels:
+      {{- include "metaflow-app.labels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "metaflow-app.labels" . | nindent 8 }}
+    spec:
+      hostNetwork: {{ tpl .Values.hostNetwork . }}
+      dnsPolicy: {{ tpl .Values.dnsPolicy . }}
+      imagePullSecrets:
+      {{- with .Values.imagePullSecrets }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: metaflow-app
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ tpl .Values.image.app.repository . }}:{{ tpl .Values.image.app.tag . }}"
+          imagePullPolicy: "{{ tpl .Values.image.app.pullPolicy . }}"
+          env:
+            - name: TZ
+              value: "{{ tpl .Values.timezone . }}"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.app.resources | nindent 12 }}
+      volumes:
+        - name: app-config
+          configMap:
+            name: {{ include "metaflow.fullname" . }}
+            items:
+            - key: app.yaml
+              path: app.yaml
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      affinity:
+      {{- include "appNodeaffinity" . | indent 6 }}
+      {{- include "appPodAffinity" . | indent 6 }}
+      {{- include "appPodAntiAffinity" . | indent 6 }}
+      {{- if or .Values.global.tolerations .Values.tolerations }}
+      tolerations:
+      {{- if .Values.global.tolerations }}
+      {{- toYaml .Values.global.tolerations | nindent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      {{- toYaml .Values.tolerations | nindent 8 }}
+      {{- end }}
+      {{- end }}

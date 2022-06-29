@@ -22,6 +22,7 @@ global:
   nodeAffinityLabelSelector: []
   nodeAffinityTermLabelSelector: []
   timezone: "Asia/Shanghai"
+  clickhouseNodePort: 30900
 
 image:
   server:
@@ -30,6 +31,10 @@ image:
     pullPolicy: "{{ .Values.global.image.pullPolicy }}"
   elector:
     repository: "{{ .Values.global.image.repository }}/elector"
+    tag: latest
+    pullPolicy: "{{ .Values.global.image.pullPolicy }}"
+  app:
+    repository: "{{ .Values.global.image.repository }}/app"
     tag: latest
     pullPolicy: "{{ .Values.global.image.pullPolicy }}"
 
@@ -55,7 +60,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-ntp_server: ntp1.cloud.aliyuncs.com
+ntp_server: ntp1.aliyun.com
 
 service:
   server:
@@ -132,7 +137,41 @@ service:
 
     ## Service type
     ##
-    type: NodePort
+    type: ClusterIP
+
+  app:
+    ## Configuration for Metaflow querier service
+    ##
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+    ## Port for Metaflow querier service to listen on
+    ##
+    ports:
+    - name: app
+      port: 20416
+      targetPort: 20416
+      ## Port to expose on each node
+      ## Only used if service.type is 'NodePort'
+      ##
+      nodePort: 
+      protocol: TCP
+
+    ## Additional ports to open for Metaflow querier service
+    additionalPorts: []
+
+    externalIPs: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+
+    ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
+    ##
+    externalTrafficPolicy: Cluster
+
+    ## Service type
+    ##
+    type: ClusterIP
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -145,6 +184,15 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+app:
+  replicas: "1"
+  resources: {}
+  podAntiAffinityLabelSelector: []
+  podAntiAffinityTermLabelSelector: []
+  podAffinityLabelSelector: []
+  podAffinityTermLabelSelector: []
+  nodeAffinityLabelSelector: []
+  nodeAffinityTermLabelSelector: []
 
 tolerations: []
 
@@ -193,7 +241,7 @@ nodeAffinityTermLabelSelector: []
   #     operator: In
   #     values: metaflow,metaflowys
 
-metaflowServerConfig:
+config:
   server.yaml: |
     controller:
       ## logfile path
@@ -297,12 +345,13 @@ metaflowServerConfig:
       clickhouse:
         database: deepflow
         user: default
-        port: 30900
+        port: 9000
         timeout: 60
         host: "{{ $.Release.Name }}-clickhouse"
     ingester:
       ckdb-service-prefix: "{{ $.Release.Name }}-clickhouse-headless"
-
+  app.yaml: |
+    app: app
 
 clickhouse:
   # Default values for clickhouse.

@@ -1,0 +1,44 @@
+global:
+  image:
+    ## Dockerhub Image repository address: metaflowys/metaflow-server
+    ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/metaflowys/metaflow-server
+    repository: registry.cn-beijing.aliyuncs.com/metaflowys
+  replicas: 2
+
+mysql:
+  # securityContext:
+  #   privileged: true
+  storageConfig:
+    hostPathChownContainerEnabled: true
+    ## persistentVolumeClaim/hostPath
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    type: hostPath
+    hostPath: /opt/metaflow-455
+  nodeAffinityLabelSelector: 
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: cn-chengdu.172.16.0.196
+
+clickhouse:
+  storageConfig:
+    ## persistentVolumeClaim/hostPath
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    type: hostPath
+  nodeAffinityLabelSelector: 
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
+    - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: cn-chengdu.172.16.0.196 
+metaflow-agent:
+  metaflowAgentConfig: 
+    metaflow-agent.yaml: |
+      controller-ips:
+      - metaflow-server
+      kubernetes-cluster-id: d-01NKgARSKK 

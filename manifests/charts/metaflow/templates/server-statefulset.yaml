@@ -3,14 +3,14 @@ kind: StatefulSet
 metadata:
   name: {{ include "metaflow.fullname" . }}-server
   labels:
-    {{- include "metaflow.labels" . | nindent 4 }}
+    {{- include "metaflow-server.labels" . | nindent 4 }}
 spec:
   replicas: {{ tpl .Values.replicas . }}
   podManagementPolicy: {{ tpl .Values.podManagementPolicy . }}
   serviceName: {{ include "metaflow.fullname" . }}-server-headless
   selector:
     matchLabels:
-      {{- include "metaflow.selectorLabels" . | nindent 6 }}
+      {{- include "metaflow-server.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "metaflow.selectorLabels" . | nindent 8 }}
+        {{- include "metaflow-server.selectorLabels" . | nindent 8 }}
     spec:
       hostNetwork: {{ tpl .Values.hostNetwork . }}
       dnsPolicy: {{ tpl .Values.dnsPolicy . }}
@@ -94,7 +94,7 @@ spec:
       volumes:
         - name: server-config
           configMap:
-            name: {{ include "metaflow.fullname" . }}-server
+            name: {{ include "metaflow.fullname" . }}
             items:
             - key: server.yaml
               path: server.yaml

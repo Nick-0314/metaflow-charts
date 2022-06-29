@@ -47,18 +47,50 @@ Selector labels
 */}}
 {{- define "metaflow.selectorLabels" -}}
 app: metaflow
+app.kubernetes.io/name: {{ include "metaflow.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Common labels
+*/}}
+{{- define "metaflow-server.labels" -}}
+helm.sh/chart: {{ include "metaflow.chart" . }}
+{{ include "metaflow.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "metaflow-server.selectorLabels" -}}
+app: metaflow
 component: metaflow-server
 app.kubernetes.io/name: {{ include "metaflow.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+Common labels
 */}}
-{{- define "metaflow.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "metaflow.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{- define "metaflow-app.labels" -}}
+helm.sh/chart: {{ include "metaflow.chart" . }}
+{{ include "metaflow-app.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "metaflow-app.selectorLabels" -}}
+app: metaflow
+component: metaflow-app
+app.kubernetes.io/name: {{ include "metaflow.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

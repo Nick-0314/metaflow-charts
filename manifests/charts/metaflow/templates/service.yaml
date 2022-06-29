@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "metaflow.fullname" . }}-server
   labels:
-    {{- include "metaflow.labels" . | nindent 4 }}
+    {{- include "metaflow-server.labels" . | nindent 4 }}
 {{- if .Values.service.server.annotations }}
   annotations:
 {{ toYaml .Values.service.server.annotations | indent 4 }}
@@ -43,7 +43,7 @@ spec:
 {{ toYaml .Values.service.server.additionalPorts | indent 2 }}
 {{- end }}
   selector:
-    {{- include "metaflow.selectorLabels" . | nindent 4 }}
+    {{- include "metaflow-server.selectorLabels" . | nindent 4 }}
   type: "{{ .Values.service.server.type }}"
 ---
 apiVersion: v1
@@ -51,7 +51,7 @@ kind: Service
 metadata:
   name: {{ include "metaflow.fullname" . }}-querier
   labels:
-    {{- include "metaflow.labels" . | nindent 4 }}
+    {{- include "metaflow-server.labels" . | nindent 4 }}
 {{- if .Values.service.querier.annotations }}
   annotations:
 {{ toYaml .Values.service.querier.annotations | indent 4 }}
@@ -91,7 +91,7 @@ spec:
 {{ toYaml .Values.service.querier.additionalPorts | indent 2 }}
 {{- end }}
   selector:
-    {{- include "metaflow.selectorLabels" . | nindent 4 }}
+    {{- include "metaflow-server.selectorLabels" . | nindent 4 }}
   type: "{{ .Values.service.querier.type }}"
 ---
 apiVersion: v1
@@ -99,7 +99,7 @@ kind: Service
 metadata:
   name: {{ include "metaflow.fullname" . }}-server-headless
   labels:
-    {{- include "metaflow.labels" . | nindent 4 }}
+    {{- include "metaflow-server.labels" . | nindent 4 }}
 spec:
   clusterIP: None
   ports:
@@ -108,5 +108,53 @@ spec:
     targetPort: 20416
     protocol: TCP
   selector:
-    {{- include "metaflow.selectorLabels" . | nindent 4 }}
+    {{- include "metaflow-server.selectorLabels" . | nindent 4 }}
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "metaflow.fullname" . }}-app
+  labels:
+    {{- include "metaflow-app.labels" . | nindent 4 }}
+{{- if .Values.service.app.annotations }}
+  annotations:
+{{ toYaml .Values.service.app.annotations | indent 4 }}
+{{- end }}
+spec:
+{{- if .Values.service.app.clusterIP }}
+  clusterIP: {{ .Values.service.app.clusterIP }}
+{{- end }}
+{{- if .Values.service.app.externalIPs }}
+  externalIPs:
+{{ toYaml .Values.service.app.externalIPs | indent 4 }}
+{{- end }}
+{{- if .Values.service.app.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.service.app.loadBalancerIP }}
+{{- end }}
+{{- if .Values.service.app.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+  {{- range $cidr := .Values.service.app.loadBalancerSourceRanges }}
+    - {{ $cidr }}
+  {{- end }}
+{{- end }}
+{{- if ne .Values.service.app.type "ClusterIP" }}
+  externalTrafficPolicy: {{ .Values.service.app.externalTrafficPolicy }}
+{{- end }}
+  ports:
+  {{- $serviceType := .Values.service.app.type -}}
+  {{- range $index, $item := $.Values.service.app.ports }}
+  - name: {{ $item.name }}
+    port: {{ $item.port }}
+    targetPort: {{ $item.targetPort }}
+    {{- if eq $serviceType "NodePort" }}
+    nodePort: {{ $item.nodePort | default "" }}
+    {{- end }}
+    protocol: {{ $item.protocol }}
+    {{- end }}
+{{- if .Values.service.app.additionalPorts }}
+{{ toYaml .Values.service.app.additionalPorts | indent 2 }}
+{{- end }}
+  selector:
+    {{- include "metaflow-app.selectorLabels" . | nindent 4 }}
+  type: "{{ .Values.service.app.type }}"
