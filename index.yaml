@@ -3,6 +3,30 @@ entries:
   metaflow:
   - apiVersion: v2
     appVersion: "22.7"
+    created: "2022-06-29T12:17:20.862610581Z"
+    dependencies:
+    - condition: metaflow-agent.enabled
+      name: metaflow-agent
+      repository: ""
+      version: '*.*.*'
+    - name: clickhouse
+      repository: ""
+      version: '*.*.*'
+    - name: mysql
+      repository: ""
+      version: '*.*.*'
+    - name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 6.31.1
+    description: A Helm chart for Kubernetes
+    digest: e249f31026b9abb196e7298a8e23b11769594bad15e6cce336547f780b66fbfb
+    name: metaflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/metaflow-0.1.50/metaflow-0.1.50.tgz
+    version: 0.1.50
+  - apiVersion: v2
+    appVersion: "22.7"
     created: "2022-06-29T12:12:20.932961077Z"
     dependencies:
     - condition: metaflow-agent.enabled
@@ -403,6 +427,16 @@ entries:
   metaflow-agent:
   - apiVersion: v2
     appVersion: "22.7"
+    created: "2022-06-29T12:17:21.143177095Z"
+    description: A Helm chart for Kubernetes
+    digest: 04d2f5893fda759fb9fe150ab4dd7317212789f24d191dd68c0fd9188d69b33b
+    name: metaflow-agent
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/metaflow-agent-0.1.50/metaflow-agent-0.1.50.tgz
+    version: 0.1.50
+  - apiVersion: v2
+    appVersion: "22.7"
     created: "2022-06-29T12:12:21.048874942Z"
     description: A Helm chart for Kubernetes
     digest: 38b644dbd1ae3e9f5e1420d0e5c713c1286058c3b3f6ef03a1bbccf2f695635a
@@ -571,4 +605,4 @@ entries:
     urls:
     - https://github.com/mytting/metaflow-charts/releases/download/metaflow-agent-0.1.33/metaflow-agent-0.1.33.tgz
     version: 0.1.33
-generated: "2022-06-29T12:12:21.049145645Z"
+generated: "2022-06-29T12:17:21.143665001Z"
