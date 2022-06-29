@@ -24,9 +24,10 @@ global:
   timezone: "Asia/Shanghai"
   nodePort: 
     clickhous: 30900
+    metaflowServerIngester: 30033
     metaflowServerGrpc: 30035
     metaflowServerSslGrpc: 30135
-    metaflowIngester: 30033
+    metaflowServerhealthCheck: 30417
   ntpServer: ntp1.aliyun.com
 
 image:
@@ -82,10 +83,10 @@ server:
       targetPort: 20416
       nodePort:
       protocol: TCP
-    - name: server
+    - name: health-check
       port: 20417
       targetPort: 20417
-      nodePort: 
+      nodePort: "{{ .Values.global.nodePort.metaflowServerhealthCheck }}"
       protocol: TCP
     - name: grpc
       port: 20035
@@ -100,7 +101,7 @@ server:
     - name: ingester
       port: 20033
       targetPort: 20033
-      nodePort: "{{ .Values.global.nodePort.metaflowIngester }}"
+      nodePort: "{{ .Values.global.nodePort.metaflowServerIngester }}"
       protocol: TCP
     ## Additional ports to open for server service
     additionalPorts: []
@@ -130,7 +131,7 @@ server:
     #   memory: 128Mi
 
   nodeSelector: {}
-  
+
   podAntiAffinityLabelSelector:
     - labelSelector:
       - key: app
