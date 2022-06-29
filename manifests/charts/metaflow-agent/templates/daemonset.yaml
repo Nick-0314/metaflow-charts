@@ -37,16 +37,16 @@ spec:
             - name: otel
               containerPort: 4317
               protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: otel
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          readinessProbe:
-            tcpSocket:
-              port: otel
-            initialDelaySeconds: 5
-            periodSeconds: 10
+          # livenessProbe:
+          #   tcpSocket:
+          #     port: otel
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          # readinessProbe:
+          #   tcpSocket:
+          #     port: otel
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
