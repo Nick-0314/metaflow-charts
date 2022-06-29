@@ -1,6 +1,6 @@
 {{/* affinity - https://kubernetes.io/docs/concepts/configuration/assign-pod-node/ */}}
 
-{{- define "nodeaffinity" }}
+{{- define "serverNodeaffinity" }}
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
     {{- include "nodeAffinityRequiredDuringScheduling" . }}
@@ -8,10 +8,10 @@
     {{- include "nodeAffinityPreferredDuringScheduling" . }}
 {{- end }}
 
-{{- define "nodeAffinityRequiredDuringScheduling" }}
-    {{- if or .Values.nodeAffinityLabelSelector .Values.global.nodeAffinityLabelSelector }}
+{{- define "serverNodeAffinityRequiredDuringScheduling" }}
+    {{- if or .Values.server.nodeAffinityLabelSelector .Values.global.nodeAffinityLabelSelector }}
       nodeSelectorTerms:
-      {{- range $matchExpressionsIndex, $matchExpressionsItem := .Values.nodeAffinityLabelSelector }}
+      {{- range $matchExpressionsIndex, $matchExpressionsItem := .Values.server.nodeAffinityLabelSelector }}
         - matchExpressions:
         {{- range $Index, $item := $matchExpressionsItem.matchExpressions }}
           - key: {{ $item.key }}
@@ -42,8 +42,8 @@
     {{- end }}
 {{- end }}
 
-{{- define "nodeAffinityPreferredDuringScheduling" }}
-    {{- range $weightIndex, $weightItem := .Values.nodeAffinityTermLabelSelector }}
+{{- define "serverNodeAffinityPreferredDuringScheduling" }}
+    {{- range $weightIndex, $weightItem := .Values.server.nodeAffinityTermLabelSelector }}
     - weight: {{ $weightItem.weight }}
       preference:
         matchExpressions:
@@ -78,22 +78,22 @@
 {{- end }}
 
 
-{{- define "podAffinity" }}
-{{- if or .Values.podAffinityLabelSelector .Values.podAffinityTermLabelSelector}}
+{{- define "serverPodAffinity" }}
+{{- if or .Values.server.podAffinityLabelSelector .Values.server.podAffinityTermLabelSelector}}
   podAffinity:
-    {{- if .Values.podAffinityLabelSelector }}
+    {{- if .Values.server.podAffinityLabelSelector }}
     requiredDuringSchedulingIgnoredDuringExecution:
     {{- include "podAffinityRequiredDuringScheduling" . }}
     {{- end }}
-    {{- if or .Values.podAffinityTermLabelSelector}}
+    {{- if or .Values.server.podAffinityTermLabelSelector}}
     preferredDuringSchedulingIgnoredDuringExecution:
     {{- include "podAffinityPreferredDuringScheduling" . }}
     {{- end }}
 {{- end }}
 {{- end }}
 
-{{- define "podAffinityRequiredDuringScheduling" }}
-    {{- range $labelSelector, $labelSelectorItem := .Values.podAffinityLabelSelector }}
+{{- define "serverPodAffinityRequiredDuringScheduling" }}
+    {{- range $labelSelector, $labelSelectorItem := .Values.server.podAffinityLabelSelector }}
     - labelSelector:
         matchExpressions:
       {{- range $index, $item := $labelSelectorItem.labelSelector }}
@@ -127,8 +127,8 @@
     {{- end }}
 {{- end }}
 
-{{- define "podAffinityPreferredDuringScheduling" }}
-    {{- range $labelSelector, $labelSelectorItem := .Values.podAffinityTermLabelSelector }}
+{{- define "serverPodAffinityPreferredDuringScheduling" }}
+    {{- range $labelSelector, $labelSelectorItem := .Values.server.podAffinityTermLabelSelector }}
     - podAffinityTerm:
         labelSelector:
           matchExpressions:
@@ -166,22 +166,22 @@
     {{- end }}
 {{- end }}
 
-{{- define "podAntiAffinity" }}
-{{- if or .Values.podAntiAffinityLabelSelector .Values.podAntiAffinityTermLabelSelector}}
+{{- define "serverPodAntiAffinity" }}
+{{- if or .Values.server.podAntiAffinityLabelSelector .Values.server.podAntiAffinityTermLabelSelector}}
   podAntiAffinity:
-    {{- if .Values.podAntiAffinityLabelSelector }}
+    {{- if .Values.server.podAntiAffinityLabelSelector }}
     requiredDuringSchedulingIgnoredDuringExecution:
     {{- include "podAntiAffinityRequiredDuringScheduling" . }}
     {{- end }}
-    {{- if or .Values.podAntiAffinityTermLabelSelector}}
+    {{- if or .Values.server.podAntiAffinityTermLabelSelector}}
     preferredDuringSchedulingIgnoredDuringExecution:
     {{- include "podAntiAffinityPreferredDuringScheduling" . }}
     {{- end }}
 {{- end }}
 {{- end }}
 
-{{- define "podAntiAffinityRequiredDuringScheduling" }}
-    {{- range $labelSelectorIndex, $labelSelectorItem := .Values.podAntiAffinityLabelSelector }}
+{{- define "serverPodAntiAffinityRequiredDuringScheduling" }}
+    {{- range $labelSelectorIndex, $labelSelectorItem := .Values.server.podAntiAffinityLabelSelector }}
     - labelSelector:
         matchExpressions:
       {{- range $index, $item := $labelSelectorItem.labelSelector }}
@@ -215,8 +215,8 @@
     {{- end }}
 {{- end }}
 
-{{- define "podAntiAffinityPreferredDuringScheduling" }}
-    {{- range $labelSelectorIndex, $labelSelectorItem := .Values.podAntiAffinityTermLabelSelector }}
+{{- define "serverPodAntiAffinityPreferredDuringScheduling" }}
+    {{- range $labelSelectorIndex, $labelSelectorItem := .Values.server.podAntiAffinityTermLabelSelector }}
     - podAffinityTerm:
         labelSelector:
           matchExpressions:

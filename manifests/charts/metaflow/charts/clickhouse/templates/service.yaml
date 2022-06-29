@@ -30,14 +30,14 @@ spec:
 {{- end }}
   ports:
   {{- $serviceType := .Values.service.type -}}
-  {{- range $index, $item := $.Values.service.ports }}
-  - name: {{ $item.name }}
-    port: {{ $item.port }}
-    targetPort: {{ $item.targetPort }}
-    {{- if eq $serviceType "NodePort" }}
-    nodePort: {{ $item.nodePort | default "" }}
+  {{- range .Values.service.ports }}
+  - name: {{ tpl .name $ }}
+    port: {{ tpl (toString .port) $ }}
+    targetPort: {{ tpl (toString .targetPort) $ }}
+    {{- if and (eq $serviceType "NodePort") (.nodePort) }}
+    nodePort: {{ tpl (toString .nodePort) $ }}
     {{- end }}
-    protocol: {{ $item.protocol }}
+    protocol: {{ tpl .protocol $ }}
     {{- end }}
 {{- if .Values.service.additionalPorts }}
 {{ toYaml .Values.service.additionalPorts | indent 2 }}

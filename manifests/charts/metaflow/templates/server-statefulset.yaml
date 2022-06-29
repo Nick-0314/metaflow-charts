@@ -5,8 +5,8 @@ metadata:
   labels:
     {{- include "metaflow-server.labels" . | nindent 4 }}
 spec:
-  replicas: {{ tpl .Values.replicas . }}
-  podManagementPolicy: {{ tpl .Values.podManagementPolicy . }}
+  replicas: {{ tpl .Values.server.replicas . }}
+  podManagementPolicy: {{ tpl .Values.server.podManagementPolicy . }}
   serviceName: {{ include "metaflow.fullname" . }}-server-headless
   selector:
     matchLabels:
@@ -20,8 +20,8 @@ spec:
       labels:
         {{- include "metaflow-server.selectorLabels" . | nindent 8 }}
     spec:
-      hostNetwork: {{ tpl .Values.hostNetwork . }}
-      dnsPolicy: {{ tpl .Values.dnsPolicy . }}
+      hostNetwork: {{ tpl .Values.server.hostNetwork . }}
+      dnsPolicy: {{ tpl .Values.server.dnsPolicy . }}
       imagePullSecrets:
       {{- with .Values.imagePullSecrets }}
         {{- toYaml . | nindent 8 }}
@@ -62,7 +62,7 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 20
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
           - name: server-config
             mountPath: /etc/server.yaml
@@ -98,7 +98,7 @@ spec:
             items:
             - key: server.yaml
               path: server.yaml
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}

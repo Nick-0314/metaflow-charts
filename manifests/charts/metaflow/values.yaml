@@ -22,7 +22,12 @@ global:
   nodeAffinityLabelSelector: []
   nodeAffinityTermLabelSelector: []
   timezone: "Asia/Shanghai"
-  clickhouseNodePort: 30900
+  nodePort: 
+    clickhous: 30900
+    metaflowServerGrpc: 30035
+    metaflowServerSslGrpc: 30135
+    metaflowIngester: 30033
+  ntpServer: ntp1.aliyun.com
 
 image:
   server:
@@ -38,10 +43,6 @@ image:
     tag: latest
     pullPolicy: "{{ .Values.global.image.pullPolicy }}"
 
-replicas: "{{ .Values.global.replicas }}"
-hostNetwork:  "{{ .Values.global.hostNetwork }}"
-dnsPolicy: "{{ .Values.global.dnsPolicy }}"
-podManagementPolicy: "{{ .Values.global.podManagementPolicy }}"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -60,10 +61,12 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-ntp_server: ntp1.aliyun.com
-
-service:
-  server:
+server:
+  replicas: "{{ .Values.global.replicas }}"
+  hostNetwork:  "{{ .Values.global.hostNetwork }}"
+  dnsPolicy: "{{ .Values.global.dnsPolicy }}"
+  podManagementPolicy: "{{ .Values.global.podManagementPolicy }}"
+  service:
     ## Configuration for Metaflow-server service
     ##
     annotations: {}
@@ -74,22 +77,31 @@ service:
     ##
 
     ports:
+    - name: querier
+      port: 20416
+      targetPort: 20416
+      nodePort:
+      protocol: TCP
     - name: server
       port: 20417
       targetPort: 20417
-      nodePort: 30417
+      nodePort: 
       protocol: TCP
     - name: grpc
       port: 20035
       targetPort: 20035
-      nodePort: 30035
+      nodePort: "{{ .Values.global.nodePort.metaflowServerGrpc }}"
       protocol: TCP
     - name: ssl-grpc
       port: 20135
       targetPort: 20135
-      nodePort: 30135
+      nodePort: "{{ .Values.global.nodePort.metaflowServerSslGrpc }}"
       protocol: TCP
-
+    - name: ingester
+      port: 20033
+      targetPort: 20033
+      nodePort: "{{ .Values.global.nodePort.metaflowIngester }}"
+      protocol: TCP
     ## Additional ports to open for server service
     additionalPorts: []
 
@@ -105,41 +117,69 @@ service:
     ##
     type: NodePort
 
-  querier:
-    ## Configuration for Metaflow querier service
-    ##
-    annotations: {}
-    labels: {}
-    clusterIP: ""
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
 
-    ## Port for Metaflow querier service to listen on
-    ##
-    ports:
-    - name: querier
-      port: 20416
-      targetPort: 20416
-      ## Port to expose on each node
-      ## Only used if service.type is 'NodePort'
-      ##
-      nodePort: 30416
-      protocol: TCP
+  nodeSelector: {}
+  
+  podAntiAffinityLabelSelector:
+    - labelSelector:
+      - key: app
+        operator: In
+        values: metaflow
+      - key: component
+        operator: In
+        values: metaflow-server
+      topologyKey: "kubernetes.io/hostname"
+  podAntiAffinityTermLabelSelector: []
+    # - labelSelector:
+    #     - key: app
+    #       operator: In
+    #       values: metaflow,metaflowys
+    #   topologyKey: "kubernetes.io/hostname"
+    #   weight: 11
+  podAffinityLabelSelector:
+    - labelSelector:
+      - key: app
+        operator: In
+        values: metaflow
+      - key: component
+        operator: In
+        values: clickhouse
+      topologyKey: "kubernetes.io/hostname"
+  podAffinityTermLabelSelector: []
+    # - topologyKey: kubernetes.io/hostname
+    #   weight: 10
+    #   labelSelector:
+    #     - key: app
+    #       operator: In
+    #       values: metaflow,metaflowys
+  nodeAffinityLabelSelector: []
+    # - matchExpressions:
+    #     - key: app
+    #       operator: In
+    #       values: metaflow,metaflowys
+  nodeAffinityTermLabelSelector: []
+    # - weight: 10
+    #   matchExpressions:
+    #   - key: app
+    #     operator: In
+    #     values: metaflow,metaflowys
 
-    ## Additional ports to open for Metaflow querier service
-    additionalPorts: []
-
-    externalIPs: []
-    loadBalancerIP: ""
-    loadBalancerSourceRanges: []
-
-    ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
-    ##
-    externalTrafficPolicy: Cluster
-
-    ## Service type
-    ##
-    type: ClusterIP
-
-  app:
+app:
+  replicas: "1"
+  hostNetwork:  "{{ .Values.global.hostNetwork }}"
+  dnsPolicy: "{{ .Values.global.dnsPolicy }}"
+  service:
     ## Configuration for Metaflow querier service
     ##
     annotations: {}
@@ -172,21 +212,8 @@ service:
     ## Service type
     ##
     type: ClusterIP
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-app:
-  replicas: "1"
   resources: {}
+  nodeSelector: {}
   podAntiAffinityLabelSelector: []
   podAntiAffinityTermLabelSelector: []
   podAffinityLabelSelector: []
@@ -197,49 +224,6 @@ app:
 tolerations: []
 
 
-podAntiAffinityLabelSelector:
-  - labelSelector:
-    - key: app
-      operator: In
-      values: metaflow
-    - key: component
-      operator: In
-      values: metaflow-server
-    topologyKey: "kubernetes.io/hostname"
-podAntiAffinityTermLabelSelector: []
-  # - labelSelector:
-  #     - key: app
-  #       operator: In
-  #       values: metaflow,metaflowys
-  #   topologyKey: "kubernetes.io/hostname"
-  #   weight: 11
-podAffinityLabelSelector:
-  - labelSelector:
-    - key: app
-      operator: In
-      values: metaflow
-    - key: component
-      operator: In
-      values: clickhouse
-    topologyKey: "kubernetes.io/hostname"
-podAffinityTermLabelSelector: []
-  # - topologyKey: kubernetes.io/hostname
-  #   weight: 10
-  #   labelSelector:
-  #     - key: app
-  #       operator: In
-  #       values: metaflow,metaflowys
-nodeAffinityLabelSelector: []
-  # - matchExpressions:
-  #     - key: app
-  #       operator: In
-  #       values: metaflow,metaflowys
-nodeAffinityTermLabelSelector: []
-  # - weight: 10
-  #   matchExpressions:
-  #   - key: app
-  #     operator: In
-  #     values: metaflow,metaflowys
 
 config:
   server.yaml: |
@@ -304,7 +288,7 @@ config:
       trisolaris:
         tsdb_ip:
         chrony:
-          host: "{{ tpl .Values.ntp_server . }}"
+          host: {{ tpl .Values.global.ntpServer . }}
           port: 123
           timeout: 1
         # - 127.0.0.1
@@ -441,7 +425,7 @@ clickhouse:
     - name: tcp-port
       port: 9000
       targetPort: 9000
-      nodePort: 30900
+      nodePort: "{{ .Values.global.clickhouseNodePort }}"
       protocol: TCP
     - name: interserver-http-port
       port: 9009
