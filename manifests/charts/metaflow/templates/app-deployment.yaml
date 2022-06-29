@@ -8,7 +8,7 @@ spec:
   replicas: {{ tpl .Values.app.replicas . }}
   selector:
     matchLabels:
-      {{- include "metaflow-app.labels" . | nindent 6 }}
+      {{- include "metaflow-app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -16,7 +16,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "metaflow-app.labels" . | nindent 8 }}
+        {{- include "metaflow-app.selectorLabels" . | nindent 8 }}
     spec:
       hostNetwork: {{ tpl .Values.app.hostNetwork . }}
       dnsPolicy: {{ tpl .Values.app.dnsPolicy . }}

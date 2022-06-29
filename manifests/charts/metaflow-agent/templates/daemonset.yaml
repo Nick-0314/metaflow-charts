@@ -52,7 +52,7 @@ spec:
           volumeMounts:
             - name: sys-kernel-debug
               mountPath: /sys/kernel/debug
-              readOnly: true
+              readOnly: false
             - name: metaflow-agent-conf
               mountPath: /etc/metaflow-agent
       volumes:

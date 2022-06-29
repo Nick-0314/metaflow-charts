@@ -653,7 +653,7 @@ metaflow-agent:
   metaflowAgentConfig: 
     metaflow-agent.yaml: |
       controller-ips:
-      - metaflow-server
+      - "{{ $.Release.Name }}-server-headless"
       # kubernetes-cluster-id: __K8S_CLUSTER_ID__
       # ingress-flavour: __INGRESS_FLAVOUR__
       # vtap-group-id-request: "__VTAPGROUPID__"
