@@ -567,8 +567,8 @@ metaflow-agent:
     tag: latest
 
   imagePullSecrets: []
-  nameOverride: ""
-  fullnameOverride: ""
+  nameOverride: "metaflow-agent"
+  fullnameOverride: "metaflow-agent"
 
   podAnnotations: {}
 
