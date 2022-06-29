@@ -74,6 +74,8 @@ spec:
               value: {{ tpl .Values.password . }}
             - name: MYSQL_DATABASE
               value: grafana
+            - name: TZ
+              value: "{{ tpl .Values.timezone . }}"
           volumeMounts:
           - name: mysql-config
             mountPath: /etc/my.cnf

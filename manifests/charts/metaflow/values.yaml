@@ -21,7 +21,7 @@ global:
   podAffinityTermLabelSelector: []
   nodeAffinityLabelSelector: []
   nodeAffinityTermLabelSelector: []
-
+  timezone: "Asia/Shanghai"
 
 image:
   server:
@@ -41,6 +41,7 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+timezone: "{{ .Values.global.timezone }}"
 podAnnotations: {}
 
 podSecurityContext: {}
@@ -318,6 +319,7 @@ clickhouse:
     # Overrides the image tag whose default is the chart appVersion.
     tag: "21.8.15.7"
 
+  timezone: "{{ .Values.global.timezone }}"
   imagePullSecrets: []
   nameOverride: ""
   fullnameOverride: ""
@@ -458,7 +460,7 @@ mysql:
   nameOverride: ""
   fullnameOverride: ""
   password: "{{ .Values.global.password.mysql }}"
-
+  timezone: "{{ .Values.global.timezone }}"
   podAnnotations: {}
 
   podSecurityContext: {}
