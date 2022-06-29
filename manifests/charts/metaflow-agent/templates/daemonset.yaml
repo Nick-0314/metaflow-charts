@@ -52,7 +52,7 @@ spec:
           volumeMounts:
             - name: sys-kernel-debug
               mountPath: /sys/kernel/debug
-              readOnly: false ## load ebpf bytecode into kernel
+              readOnly: false ## attach/detach ebpf kprobe/uprobe to kernel
             - name: metaflow-agent-conf
               mountPath: /etc/metaflow-agent
       volumes:
