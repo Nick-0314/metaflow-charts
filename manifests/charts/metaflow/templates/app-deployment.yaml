@@ -36,17 +36,17 @@ spec:
             - name: TZ
               value: "{{ tpl .Values.timezone . }}"
           ports:
-            - name: http
+            - name: app
               containerPort: 20404
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
           volumeMounts:
