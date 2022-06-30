@@ -49,13 +49,24 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
+          volumeMounts:
+          - name: app-config
+            mountPath: /etc/statistics.yaml
+            subPath: statistics.yaml
+          env:
+          - name: NODE_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          - name: TZ
+            value: "{{ tpl .Values.timezone . }}"
       volumes:
         - name: app-config
           configMap:
             name: {{ include "metaflow.fullname" . }}
             items:
-            - key: app.yaml
-              path: app.yaml
+            - key: statistics.yaml
+              path: statistics.yaml
       {{- with .Values.app.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

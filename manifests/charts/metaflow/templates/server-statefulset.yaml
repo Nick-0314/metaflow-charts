@@ -72,6 +72,8 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
+          - name: TZ
+            value: "{{ tpl .Values.timezone . }}"
         - image: "{{ tpl .Values.image.elector.repository . }}:{{ tpl .Values.image.elector.tag . }}"
           imagePullPolicy: "{{ tpl .Values.image.elector.pullPolicy . }}"
           name: elector
