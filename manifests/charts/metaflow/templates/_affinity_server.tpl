@@ -3,9 +3,9 @@
 {{- define "serverNodeaffinity" }}
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
-    {{- include "nodeAffinityRequiredDuringScheduling" . }}
+    {{- include "serverNodeAffinityRequiredDuringScheduling" . }}
     preferredDuringSchedulingIgnoredDuringExecution:
-    {{- include "nodeAffinityPreferredDuringScheduling" . }}
+    {{- include "serverNodeAffinityPreferredDuringScheduling" . }}
 {{- end }}
 
 {{- define "serverNodeAffinityRequiredDuringScheduling" }}
@@ -83,11 +83,11 @@
   podAffinity:
     {{- if .Values.server.podAffinityLabelSelector }}
     requiredDuringSchedulingIgnoredDuringExecution:
-    {{- include "podAffinityRequiredDuringScheduling" . }}
+    {{- include "serverPodAffinityRequiredDuringScheduling" . }}
     {{- end }}
     {{- if or .Values.server.podAffinityTermLabelSelector}}
     preferredDuringSchedulingIgnoredDuringExecution:
-    {{- include "podAffinityPreferredDuringScheduling" . }}
+    {{- include "serverPodAffinityPreferredDuringScheduling" . }}
     {{- end }}
 {{- end }}
 {{- end }}
@@ -171,11 +171,11 @@
   podAntiAffinity:
     {{- if .Values.server.podAntiAffinityLabelSelector }}
     requiredDuringSchedulingIgnoredDuringExecution:
-    {{- include "podAntiAffinityRequiredDuringScheduling" . }}
+    {{- include "serverPodAntiAffinityRequiredDuringScheduling" . }}
     {{- end }}
     {{- if or .Values.server.podAntiAffinityTermLabelSelector}}
     preferredDuringSchedulingIgnoredDuringExecution:
-    {{- include "podAntiAffinityPreferredDuringScheduling" . }}
+    {{- include "serverPodAntiAffinityPreferredDuringScheduling" . }}
     {{- end }}
 {{- end }}
 {{- end }}

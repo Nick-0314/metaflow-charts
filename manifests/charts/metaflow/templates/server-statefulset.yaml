@@ -105,9 +105,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       affinity:
-      {{- include "nodeaffinity" . | indent 6 }}
-      {{- include "podAffinity" . | indent 6 }}
-      {{- include "podAntiAffinity" . | indent 6 }}
+      {{- include "serverNodeaffinity" . | indent 6 }}
+      {{- include "serverPodAffinity" . | indent 6 }}
+      {{- include "serverPodAntiAffinity" . | indent 6 }}
       {{- if or .Values.global.tolerations .Values.tolerations }}
       tolerations:
       {{- if .Values.global.tolerations }}
