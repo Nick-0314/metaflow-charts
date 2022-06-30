@@ -310,7 +310,7 @@ config:
         node-type: "master"
         ## grpc max message lenth default 100M
         grpc-max-message-length: 104857600
-        region-domain-prefix: "{{ .Values.global.current_region_domain_prefix }}"
+        region-domain-prefix: ""
       genesis:
         aging_time: 86400
         vinterface_aging_time: 300
@@ -794,4 +794,4 @@ grafana:
        isDefault: true
        jsonData:
         requestUrl: http://{{ include "metaflow.fullname" . }}-server:20416
-        traceUrl: ''
+        traceUrl: http://{{ include "metaflow.fullname" . }}-app:20404
