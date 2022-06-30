@@ -20,6 +20,7 @@ spec:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: {{ tpl .Values.hostNetwork . }}
+      hostPID: true
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

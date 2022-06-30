@@ -762,7 +762,10 @@ grafana:
      apiVersion: 1
      datasources:
      - name: MetaFlow
-       type: metaflow
-       url: http://{{ include "metaflow.fullname" . }}-server:20416
+       type: yunshan-metaflow-datasource
+       url: 
        access: proxy
        isDefault: true
+       jsonData:
+        requestUrl: http://{{ include "metaflow.fullname" . }}-server:20416
+        traceUrl: ''
