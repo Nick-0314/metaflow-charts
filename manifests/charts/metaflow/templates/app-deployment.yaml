@@ -37,7 +37,7 @@ spec:
               value: "{{ tpl .Values.timezone . }}"
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 20404
               protocol: TCP
           livenessProbe:
             httpGet:

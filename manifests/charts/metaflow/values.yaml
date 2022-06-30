@@ -32,7 +32,7 @@ global:
 
 image:
   server:
-    repository: "dfcloud-image-registry.cn-beijing.cr.aliyuncs.com/dev/statistics:latest"
+    repository: "{{ .Values.global.image.repository }}/server"
     tag: latest
     pullPolicy: "{{ .Values.global.image.pullPolicy }}"
   elector:
@@ -40,7 +40,7 @@ image:
     tag: latest
     pullPolicy: "{{ .Values.global.image.pullPolicy }}"
   app:
-    repository: "{{ .Values.global.image.repository }}/app"
+    repository: "dfcloud-image-registry.cn-beijing.cr.aliyuncs.com/dev/statistics"
     tag: latest
     pullPolicy: "{{ .Values.global.image.pullPolicy }}"
 
@@ -191,8 +191,8 @@ app:
     ##
     ports:
     - name: app
-      port: 20416
-      targetPort: 20416
+      port: 20404
+      targetPort: 20404
       ## Port to expose on each node
       ## Only used if service.type is 'NodePort'
       ##
