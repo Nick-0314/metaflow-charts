@@ -10,10 +10,10 @@ spec:
       {{- include "metaflow-agent.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
         container.apparmor.security.beta.kubernetes.io/metaflow-agent: unconfined
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         {{- include "metaflow-agent.selectorLabels" . | nindent 8 }}
