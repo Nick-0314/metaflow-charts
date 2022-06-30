@@ -32,7 +32,7 @@ global:
 
 image:
   server:
-    repository: "{{ .Values.global.image.repository }}/server"
+    repository: "{{ .Values.global.image.repository }}/metaflow-server"
     tag: latest
     pullPolicy: "{{ .Values.global.image.pullPolicy }}"
   elector:
