@@ -757,12 +757,12 @@ grafana:
   extraEmptyDirMounts: 
     - name: custom-plugins
       mountPath: /var/lib/grafana/plugins
-  datasources: {}
-  #  datasources.yaml:
-  #    apiVersion: 1
-  #    datasources:
-  #    - name: MetaFlow
-  #      type: metaflow
-  #      url: "http://{{ $.Release.Name }}-querier:20416"
-  #      access: proxy
-  #      isDefault: true
+  datasources: 
+   datasources.yaml:
+     apiVersion: 1
+     datasources:
+     - name: MetaFlow
+       type: metaflow
+       url: http://{{ include "metaflow.fullname" . }}-server:20416
+       access: proxy
+       isDefault: true
