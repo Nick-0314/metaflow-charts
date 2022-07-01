@@ -45,23 +45,25 @@ spec:
   selector:
     {{- include "metaflow-server.selectorLabels" . | nindent 4 }}
   type: "{{ .Values.server.service.type }}"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "metaflow.fullname" . }}-server-headless
-  labels:
-    {{- include "metaflow-server.labels" . | nindent 4 }}
-spec:
-  clusterIP: None
-  ports:
-  - name: tcp
-    port: 20416
-    targetPort: 20416
-    protocol: TCP
-  selector:
-    {{- include "metaflow-server.selectorLabels" . | nindent 4 }}
-  type: ClusterIP
+{{/* 
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: {{ include "metaflow.fullname" . }}-server-headless
+#   labels:
+#     {{- include "metaflow-server.labels" . | nindent 4 }}
+# spec:
+#   clusterIP: None
+#   ports:
+#   - name: tcp
+#     port: 20416
+#     targetPort: 20416
+#     protocol: TCP
+#   selector:
+#     {{- include "metaflow-server.selectorLabels" . | nindent 4 }}
+#   type: ClusterIP
+*/}}
 ---
 apiVersion: v1
 kind: Service

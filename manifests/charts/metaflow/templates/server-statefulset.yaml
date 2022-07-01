@@ -68,7 +68,7 @@ spec:
             mountPath: /etc/server.yaml
             subPath: server.yaml
           env:
-          - name: NODE_IP
+          - name: K8S_NODE_IP_FOR_METAFLOW
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP

@@ -33,6 +33,8 @@ securityContext:
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+  
+nodeIPInjection: false
 
 service:
   ## Configuration for Clickhouse service

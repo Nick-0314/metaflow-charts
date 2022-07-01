@@ -631,7 +631,7 @@ metaflow-agent:
   fullnameOverride: "metaflow-agent"
 
   podAnnotations: {}
-
+  nodeIPInjection: true
   podSecurityContext: {}
     # fsGroup: 2000
   hostNetwork: "true"
@@ -679,7 +679,7 @@ metaflow-agent:
   metaflowAgentConfig: 
     metaflow-agent.yaml: |
       controller-ips:
-      - "{{ $.Release.Name }}-server-headless"
+      - "{{ $.Release.Name }}-server"
       # kubernetes-cluster-id: __K8S_CLUSTER_ID__
       # ingress-flavour: __INGRESS_FLAVOUR__
       # vtap-group-id-request: "__VTAPGROUPID__"

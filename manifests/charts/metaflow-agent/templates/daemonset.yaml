@@ -48,6 +48,13 @@ spec:
           #     port: otel
           #   initialDelaySeconds: 5
           #   periodSeconds: 10
+          {{- if .Values.nodeIPInjection }}
+          env:
+          - name: K8S_NODE_IP_FOR_METAFLOW
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
