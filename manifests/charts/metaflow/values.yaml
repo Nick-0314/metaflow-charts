@@ -755,7 +755,7 @@ grafana:
       user: root
       password: "{{ .Values.global.password.mysql }}"
     plugins:
-      allow_loading_unsigned_plugins: yunshan-metaflow-datasource,yunshan-metaflow-panel,metaflow-topo-panel
+      allow_loading_unsigned_plugins: metaflow-querier-datasource,metaflow-apptracing-panel,metaflow-topo-panel
   sidecar:
     skipTlsVerify: true
     dashboards:
