@@ -35,9 +35,6 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ tpl .Values.image.server.repository . }}:{{ tpl .Values.image.server.tag . }}"
           imagePullPolicy: "{{ tpl .Values.image.server.pullPolicy . }}"
-          env:
-            - name: TZ
-              value: "{{ tpl .Values.timezone . }}"
           ports:
             - name: server
               containerPort: 20417

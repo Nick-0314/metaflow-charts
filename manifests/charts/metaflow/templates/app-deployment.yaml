@@ -32,9 +32,6 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ tpl .Values.image.app.repository . }}:{{ tpl .Values.image.app.tag . }}"
           imagePullPolicy: "{{ tpl .Values.image.app.pullPolicy . }}"
-          env:
-            - name: TZ
-              value: "{{ tpl .Values.timezone . }}"
           ports:
             - name: app
               containerPort: 20404
