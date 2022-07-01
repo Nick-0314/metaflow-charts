@@ -102,7 +102,7 @@ spec:
     port: {{ tpl (toString .port) $ }}
     targetPort: {{ tpl (toString .targetPort) $ }}
     {{- if and (eq $serviceType "NodePort") (.nodePort) }}
-    nodePort: {{ tpl .nodePort $ }}
+    nodePort: {{ tpl (toString .nodePort) $ }}
     {{- end }}
     protocol: {{ tpl .protocol $ }}
     {{- end }}
