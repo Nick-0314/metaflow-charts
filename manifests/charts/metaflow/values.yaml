@@ -28,7 +28,7 @@ global:
     metaflowServerGrpc: 30035
     metaflowServerSslGrpc: 30135
     metaflowServerhealthCheck: 30417
-  ntpServer: ntp1.aliyun.com
+  ntpServer: ntp.aliyun.com
 
 image:
   server:
