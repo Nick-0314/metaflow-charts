@@ -40,7 +40,7 @@ image:
     tag: latest
     pullPolicy: "{{ .Values.global.image.pullPolicy }}"
   app:
-    repository: "dfcloud-image-registry.cn-beijing.cr.aliyuncs.com/dev/statistics"
+    repository:  "{{ .Values.global.image.repository }}/metaflow-app"
     tag: latest
     pullPolicy: "{{ .Values.global.image.pullPolicy }}"
 
@@ -191,8 +191,8 @@ app:
     ##
     ports:
     - name: app
-      port: 20404
-      targetPort: 20404
+      port: 20418
+      targetPort: 20418
       ## Port to expose on each node
       ## Only used if service.type is 'NodePort'
       ##
@@ -335,34 +335,30 @@ config:
         host: "{{ $.Release.Name }}-clickhouse"
     ingester:
       ckdb-service-prefix: "{{ $.Release.Name }}-clickhouse-headless"
-  statistics.yaml: |
-    default:
+  app.yaml: |
+    app:
+      # logfile path
+      log-file: /var/log/metaflow/app.log
+      # loglevel: "debug/info/warn/error"
+      log-level: info
+      # app http listenport
+      listen-port: 20418
+      # http request/response timeout
       http_request_timeout: 600
       http_response_timeout: 600
-    listen_port: 20404
-    logger:
-      file: /var/log/statistics.log
-      level: info
-    mysql:
-      user_name: root
-      port: 30130
-      user_password: "{{ .Values.global.password.mysql }}"
-      host: "{{ $.Release.Name }}-mysql"
-      database : deepflow
-    clickhouse:
-        user: default
-        database: deepflow
-        connect_timeout: 2
+
+      querier:
+        host: {{ include "metaflow.fullname" . }}-server
+        port: 20416
         timeout: 60
-    spec:
-      topo_topn: 1
-      csv_page_size: 1000000
-      s1_period: 30
-      m1_period: 180
-      h1_period: 180
-      d1_period: 180
-      other_period: 180
-      l7_tracing_limit: 100
+      
+      controller:
+        host: {{ include "metaflow.fullname" . }}-server
+        port: 20417
+        timeout: 60
+      
+      spec:
+        l7_tracing_limit: 100
 
 clickhouse:
   # Default values for clickhouse.
@@ -794,4 +790,4 @@ grafana:
        isDefault: true
        jsonData:
         requestUrl: http://{{ include "metaflow.fullname" . }}-server:20416
-        traceUrl: http://{{ include "metaflow.fullname" . }}-app:20404
+        traceUrl: http://{{ include "metaflow.fullname" . }}-app:20418

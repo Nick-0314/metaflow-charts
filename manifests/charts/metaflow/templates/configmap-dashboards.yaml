@@ -1,5 +1,5 @@
 {{- if or (and .Values.grafana.enabled .Values.grafana.defaultDashboardsEnabled) .Values.grafana.forceDeployDashboards }}
-{{- $files := .Files.Glob "dashboards-22.7/*.json" }}
+{{- $files := .Files.Glob "dashboards-6.1.1/*.json" }}
 {{- if $files }}
 apiVersion: v1
 kind: ConfigMapList
