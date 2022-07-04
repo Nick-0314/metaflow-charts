@@ -9,7 +9,7 @@ items:
 - apiVersion: v1
   kind: ConfigMap
   metadata:
-    name: {{ printf "%s-%s" (include "metaflow.fullname" $) $dashboardName | trunc 63 | trimSuffix "-" | lower }}
+    name: {{ printf "%s-%s-%s" (include "metaflow.fullname" $) "dashboard" $dashboardName | trunc 63 | trimSuffix "-" | lower }}
     namespace: {{ $.Release.Namespace }}
     labels:
       {{- if $.Values.grafana.sidecar.dashboards.label }}
