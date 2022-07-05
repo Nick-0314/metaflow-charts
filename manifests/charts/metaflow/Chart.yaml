@@ -25,9 +25,9 @@ appVersion: "22.7"
 
 dependencies:
 - name: metaflow-agent
- repository: ""
- version: '*.*.*'
- condition: metaflow-agent.enabled
+  repository: ""
+  version: '*.*.*'
+  condition: metaflow-agent.enabled
 - name: clickhouse
   repository: ""
   version: '*.*.*'
@@ -35,5 +35,5 @@ dependencies:
   repository: ""
   version: '*.*.*'
 - name: grafana
- version: "6.31.1"
- repository: https://grafana.github.io/helm-charts
+  version: "6.31.1"
+  repository: https://grafana.github.io/helm-charts
