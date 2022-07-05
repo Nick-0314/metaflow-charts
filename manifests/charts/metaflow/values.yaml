@@ -23,7 +23,7 @@ global:
   nodeAffinityTermLabelSelector: []
   timezone: "Asia/Shanghai"
   nodePort: 
-    clickhous: 30900
+    clickhouse: 30900
     metaflowServerIngester: 30033
     metaflowServerGrpc: 30035
     metaflowServerSslGrpc: 30135
@@ -239,17 +239,17 @@ config:
       mysql:
         database: deepflow
         user-name: root
-        user-password: "{{ .Values.global.password.mysql }}"
-        host: "{{ $.Release.Name }}-mysql"
+        user-password: {{ .Values.global.password.mysql }}
+        host: {{ $.Release.Name }}-mysql
         port: 30130
         timeout: 30
       ## clickhouse config
       clickhouse:
         database: deepflow
         user: default
-        port: 30900
+        port: {{ .Values.global.nodePort.clickhouse }}
         timeout: 60
-        host: "{{ $.Release.Name }}-clickhouse"
+        host: {{ $.Release.Name }}-clickhouse
       ## roze
       roze:
         port: 20106
@@ -334,9 +334,9 @@ config:
         user: default
         port: 9000
         timeout: 60
-        host: "{{ $.Release.Name }}-clickhouse"
+        host: {{ $.Release.Name }}-clickhouse
     ingester:
-      ckdb-service-prefix: "{{ $.Release.Name }}-clickhouse-headless"
+      ckdb-service-prefix: {{ $.Release.Name }}-clickhouse-headless
   app.yaml: |
     app:
       # logfile path
@@ -447,7 +447,7 @@ clickhouse:
     - name: tcp-port
       port: 9000
       targetPort: 9000
-      nodePort: "{{ .Values.global.clickhouseNodePort }}"
+      nodePort: "{{ .Values.global.nodePort.clickhouse }}"
       protocol: TCP
     - name: interserver-http-port
       port: 9009
