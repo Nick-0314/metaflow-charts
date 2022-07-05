@@ -1,4 +1,14 @@
-Get the Grafana URL to visit by running these commands in the same shell
+
+███╗   ███╗███████╗████████╗ █████╗ ███████╗██╗      ██████╗ ██╗    ██╗
+████╗ ████║██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║     ██╔═══██╗██║    ██║
+██╔████╔██║█████╗     ██║   ███████║█████╗  ██║     ██║   ██║██║ █╗ ██║
+██║╚██╔╝██║██╔══╝     ██║   ██╔══██║██╔══╝  ██║     ██║   ██║██║███╗██║
+██║ ╚═╝ ██║███████╗   ██║   ██║  ██║██║     ███████╗╚██████╔╝╚███╔███╔╝
+╚═╝     ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝  ╚══╝╚══╝
+
+An automated observability platform for cloud-native developers.
+
+# Get the Grafana URL to visit by running these commands in the same shell
 
 {{ if contains "NodePort" .Values.grafana.service.type }}
 NODE_PORT=$(kubectl get --namespace {{ $.Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ $.Release.Name }}-grafana)
