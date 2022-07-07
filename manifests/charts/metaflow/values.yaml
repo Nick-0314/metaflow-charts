@@ -175,15 +175,15 @@ server:
     #   - key: app
     #     operator: In
     #     values: metaflow,metaflowys
-  extraVolumeMounts:
-    - name: extra-volume-0
-      mountPath: /mnt/volume0
-      readOnly: true
-      existingClaim: volume-claim
-    - name: extra-volume-1
-      mountPath: /mnt/volume1
-      readOnly: true
-      hostPath: /usr/shared/
+  extraVolumeMounts: []
+  #   - name: extra-volume-0
+  #     mountPath: /mnt/volume0
+  #     readOnly: true
+  #     existingClaim: volume-claim
+  #   - name: extra-volume-1
+  #     mountPath: /mnt/volume1
+  #     readOnly: true
+  #     hostPath: /usr/shared/
 
 
 app:
