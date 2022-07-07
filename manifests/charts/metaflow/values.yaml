@@ -108,7 +108,7 @@ server:
       targetPort: 20033
       nodePort:
       protocol: TCP
-    - name: ingester
+    - name: ingester-30033
       port: 30033
       targetPort: 20033
       nodePort: "{{ .Values.global.nodePort.metaflowServerIngester }}"
