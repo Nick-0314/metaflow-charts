@@ -64,6 +64,12 @@ spec:
           - name: server-config
             mountPath: /etc/server.yaml
             subPath: server.yaml
+        {{- range .Values.server.extraVolumeMounts }}
+          - name: {{ .name }}
+            mountPath: {{ .mountPath }}
+            subPath: {{ .subPath | default "" }}
+            readOnly: {{ .readOnly }}
+        {{- end }}
           env:
           - name: K8S_NODE_IP_FOR_METAFLOW
             valueFrom:
@@ -101,6 +107,18 @@ spec:
             items:
             - key: server.yaml
               path: server.yaml
+      {{- range .Values.server.extraVolumeMounts }}
+        - name: {{ .name }}
+          {{- if .existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .existingClaim }}
+          {{- else if .hostPath }}
+          hostPath:
+            path: {{ .hostPath }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      {{- end }}
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
