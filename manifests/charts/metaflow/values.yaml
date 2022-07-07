@@ -91,7 +91,7 @@ server:
     - name: grpc
       port: 20035
       targetPort: 20035
-      nodePort: "{{ .Values.global.nodePort.metaflowServerGrpc }}"
+      nodePort:
       protocol: TCP
     - name: grpc-30035
       port: 30035
@@ -105,6 +105,11 @@ server:
       protocol: TCP
     - name: ingester
       port: 20033
+      targetPort: 20033
+      nodePort:
+      protocol: TCP
+    - name: ingester
+      port: 30033
       targetPort: 20033
       nodePort: "{{ .Values.global.nodePort.metaflowServerIngester }}"
       protocol: TCP
