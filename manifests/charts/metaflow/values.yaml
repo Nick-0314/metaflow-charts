@@ -93,6 +93,11 @@ server:
       targetPort: 20035
       nodePort: "{{ .Values.global.nodePort.metaflowServerGrpc }}"
       protocol: TCP
+    - name: grpc-30035
+      port: 30035
+      targetPort: 20035
+      nodePort: "{{ .Values.global.nodePort.metaflowServerGrpc }}"
+      protocol: TCP
     - name: ssl-grpc
       port: 20135
       targetPort: 20135
@@ -142,12 +147,6 @@ server:
         values: metaflow-server
       topologyKey: "kubernetes.io/hostname"
   podAntiAffinityTermLabelSelector: []
-    # - labelSelector:
-    #     - key: app
-    #       operator: In
-    #       values: metaflow,metaflowys
-    #   topologyKey: "kubernetes.io/hostname"
-    #   weight: 11
   podAffinityLabelSelector:
     - labelSelector:
       - key: app
@@ -158,23 +157,8 @@ server:
         values: clickhouse
       topologyKey: "kubernetes.io/hostname"
   podAffinityTermLabelSelector: []
-    # - topologyKey: kubernetes.io/hostname
-    #   weight: 10
-    #   labelSelector:
-    #     - key: app
-    #       operator: In
-    #       values: metaflow,metaflowys
   nodeAffinityLabelSelector: []
-    # - matchExpressions:
-    #     - key: app
-    #       operator: In
-    #       values: metaflow,metaflowys
   nodeAffinityTermLabelSelector: []
-    # - weight: 10
-    #   matchExpressions:
-    #   - key: app
-    #     operator: In
-    #     values: metaflow,metaflowys
   extraVolumeMounts: []
   #   - name: extra-volume-0
   #     mountPath: /mnt/volume0
