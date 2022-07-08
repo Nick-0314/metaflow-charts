@@ -68,17 +68,17 @@ service:
   ##
   type: ClusterIP
 
-metaflowServerNodeIps:
+metaflowServerNodeIPS:
 - metaflow-server
-kubernetesClusterId: 
-agentGroupId: 
+metaflowK8sClusterID: 
+agentGroupID: 
 
 metaflowAgentConfig: 
   metaflow-agent.yaml: |
     controller-ips:
-    {{ toYaml $.Values.metaflowServerNodeIps }}
-    {{ if .Values.agentGroupId }}vtap-group-id-request: {{ .Values.agentGroupId }}{{ end }}
-    {{ if .Values.kubernetesClusterId }}kubernetes-cluster-id: {{ .Values.kubernetesClusterId }}{{ end }}
+    {{ toYaml $.Values.metaflowServerNodeIPS }}
+    {{ if .Values.agentGroupID }}vtap-group-id-request: {{ .Values.agentGroupID }}{{ end }}
+    {{ if .Values.metaflowK8sClusterID }}kubernetes-cluster-id: {{ .Values.metaflowK8sClusterID }}{{ end }}
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
