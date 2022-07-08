@@ -12,7 +12,7 @@ global:
   dnsPolicy: ClusterFirst
   password:
     mysql: metaflow
-    grafana: metaflow 
+    #grafana: metaflow 
   podManagementPolicy: "OrderedReady"
   replicas: 1
   podAntiAffinityLabelSelector: []
@@ -724,7 +724,7 @@ grafana:
   ## Other options are: browser or a specific timezone, i.e. Europe/Luxembourg
   ##
   defaultDashboardsTimezone: utc
-  adminPassword: "{{ .Values.global.password.grafana }}"
+  adminPassword: metaflow
 
   service:
     enabled: true
