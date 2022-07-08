@@ -111,3 +111,7 @@ clickhouse:
         - key: kubernetes.io/hostname
           operator: In
           values: node1
+
+
+
+          ##
