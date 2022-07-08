@@ -77,8 +77,8 @@ metaflowAgentConfig:
   metaflow-agent.yaml: |
     controller-ips:
     {{ toYaml $.Values.metaflowServerNodeIps }}
-    {{ if .Values.kubernetesClusterId }}vtap-group-id-request: {{ .Values.kubernetesClusterId }}{{ end }}
-    {{ if .Values.agentGroupId }}kubernetes-cluster-id: {{ .Values.agentGroupId }}{{ end }}
+    {{ if .Values.agentGroupId }}vtap-group-id-request: {{ .Values.agentGroupId }}{{ end }}
+    {{ if .Values.kubernetesClusterId }}kubernetes-cluster-id: {{ .Values.kubernetesClusterId }}{{ end }}
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

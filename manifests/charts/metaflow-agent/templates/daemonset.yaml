@@ -11,6 +11,8 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/customConfig: {{ sha256sum (print .Values.metaflowAgentConfig) }}
         container.apparmor.security.beta.kubernetes.io/metaflow-agent: unconfined
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
