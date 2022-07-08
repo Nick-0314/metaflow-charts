@@ -56,7 +56,7 @@ By default this chart installs additional, dependent charts:
 
 ### Global
 
-```
+```yaml
   password: 
     mysql: metaflow ## mysql root account password
     grafana: metaflow ## grafana admin account password
@@ -68,6 +68,7 @@ By default this chart installs additional, dependent charts:
     metaflowServerSslGrpc: 30135
     metaflowServerhealthCheck: 30417
   ntpServer: ntp.aliyun.com ## ntp server address, you need to ensure that udp 123 port is available
+  allInOneLocalStorage: false   ## Whether to enable allInone local storage, if enabled, the local /opt directory is used to store data by default, ignoring the node affinity check, and is not responsible for any data persistence
 ```
 
 
@@ -155,6 +156,7 @@ The affinity of component. Combine `global.affinity` by 'OR'.
 ```yaml
   storageConfig:
     type: persistentVolumeClaim  ## persistentVolumeClaim or hostPath,If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    generateType: "{{ if $.Values.global.allInOneLocalStorage }}hostPath{{ else }}{{$.Values.storageConfig.type}}{{end}}" #Please ignore this
     hostPath: /opt/metaflow-clickhouse ## your hostPath path
     persistence: ## volumeClaimTemplates configuration
       - name: clickhouse-path

@@ -1,4 +1,4 @@
-{{- if and  (eq $.Values.storageConfig.type "hostPath") (not $.Values.nodeAffinityLabelSelector)  }}
+{{- if and (not $.Values.global.allInOneLocalStorage ) (eq ( tpl $.Values.storageConfig.generateType . ) "hostPath") (not $.Values.nodeAffinityLabelSelector)  }}
 {{- fail "You must set nodeAffinityLabelSelector"  -}}
 {{- end}}
 apiVersion: apps/v1
@@ -105,7 +105,7 @@ spec:
         - name: clickhouse-config
           configMap:
             name: {{ include "clickhouse.fullname" . }}-config
-      {{- if eq .Values.storageConfig.type "hostPath" }}
+      {{- if eq ( tpl .Values.storageConfig.generateType . ) "hostPath" }}
         - name: clickhouse-path
           hostPath:
             path: {{ tpl .Values.storageConfig.hostPath . }}/clickhouse
@@ -115,7 +115,7 @@ spec:
             path: {{ tpl .Values.storageConfig.hostPath . }}/clickhouse-storage
             type: DirectoryOrCreate
       {{- end }}
-  {{- if eq .Values.storageConfig.type  "persistentVolumeClaim" }}
+  {{- if eq ( tpl $.Values.storageConfig.generateType . )  "persistentVolumeClaim" }}
   volumeClaimTemplates:
   {{- include "persistentVolumeClaim" . | indent 2 }}
   {{- end }}
