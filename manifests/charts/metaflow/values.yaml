@@ -29,6 +29,8 @@ global:
     metaflowServerSslGrpc: 30135
     metaflowServerhealthCheck: 30417
   ntpServer: ntp.aliyun.com
+  ## Whether to enable allInone local storage, if enabled, the local /opt directory is used to store data by default, ignoring the node affinity check, and is not responsible for any data persistence
+  allInOneLocalStorage: false   
 
 image:
   server:
@@ -392,9 +394,10 @@ clickhouse:
     # runAsUser: 1000
   storageConfig:
     ## persistentVolumeClaim/hostPath
-    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
-    ## 如果使用hostPath存储clickhouse数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
-    type: persistentVolumeClaim 
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts, ignored allInOneLocalStorage=true 
+    ## 如果使用hostPath存储clickhouse数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失，allInOneLocalStorage=true 时忽略
+    type: persistentVolumeClaim
+    generateType: "{{ if $.Values.global.allInOneLocalStorage }}hostPath{{ else }}{{$.Values.storageConfig.type}}{{end}}" #Please ignore this
     hostPath: /opt/metaflow-clickhouse
     persistence:
       - name: clickhouse-path
@@ -535,6 +538,7 @@ mysql:
     ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
     ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
     type: persistentVolumeClaim
+    generateType: "{{ if $.Values.global.allInOneLocalStorage }}hostPath{{ else }}{{$.Values.storageConfig.type}}{{end}}" #Please ignore this
     hostPath: /opt/metaflow-mysql
     hostPathChownContainerEnabled: true
     persistence:
@@ -670,13 +674,11 @@ metaflow-agent:
     ##
     type: ClusterIP
 
-  metaflowAgentConfig: 
-    metaflow-agent.yaml: |
-      controller-ips:
-      - "{{ $.Release.Name }}-server"
-      # kubernetes-cluster-id: __K8S_CLUSTER_ID__
-      # ingress-flavour: __INGRESS_FLAVOUR__
-      # vtap-group-id-request: "__VTAPGROUPID__"
+  metaflowServerNodeIps:
+  - metaflow-server
+  kubernetesClusterId: 
+  agentGroupId: 
+
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
