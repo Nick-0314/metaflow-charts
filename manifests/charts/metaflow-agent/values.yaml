@@ -68,13 +68,18 @@ service:
   ##
   type: ClusterIP
 
+metaflowServerNodeIps:
+- metaflow-server
+kubernetesClusterId: 
+agentGroupId: 
+
 metaflowAgentConfig: 
   metaflow-agent.yaml: |
     controller-ips:
-    - metaflow-server
-    # kubernetes-cluster-id: __K8S_CLUSTER_ID__
-    # ingress-flavour: __INGRESS_FLAVOUR__
-    # vtap-group-id-request: "__VTAPGROUPID__"
+    {{ toYaml $.Values.metaflowServerNodeIps }}
+    {{ if .Values.kubernetesClusterId }}vtap-group-id-request: {{ .Values.kubernetesClusterId }}{{ end }}
+    {{ if .Values.agentGroupId }}kubernetes-cluster-id: {{ .Values.agentGroupId }}{{ end }}
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
