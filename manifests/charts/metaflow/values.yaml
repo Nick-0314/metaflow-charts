@@ -31,7 +31,7 @@ global:
   ntpServer: ntp.aliyun.com
   ## Whether to enable allInone local storage, if enabled, the local /opt directory is used to store data by default, ignoring the node affinity check, and is not responsible for any data persistence
   allInOneLocalStorage: false 
-  storageClass:
+  storageClass: ""
 
 image:
   server:
