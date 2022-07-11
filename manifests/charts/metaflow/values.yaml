@@ -30,7 +30,8 @@ global:
     metaflowServerhealthCheck: 30417
   ntpServer: ntp.aliyun.com
   ## Whether to enable allInone local storage, if enabled, the local /opt directory is used to store data by default, ignoring the node affinity check, and is not responsible for any data persistence
-  allInOneLocalStorage: false   
+  allInOneLocalStorage: false 
+  storageClass:
 
 image:
   server:
@@ -405,7 +406,7 @@ clickhouse:
         - ReadWriteOnce
         size: 100Gi
         annotations: 
-        storageClass: "-"
+        storageClass: "{{ .Values.global.storageClass }}"
         # selector:
         #   matchLabels:
         #     app.kubernetes.io/name: clickhouse
@@ -414,7 +415,7 @@ clickhouse:
         - ReadWriteOnce
         size: 200Gi
         annotations: 
-        storageClass: "-"
+        storageClass: "{{ .Values.global.storageClass }}"
         # selector:
         #   matchLabels:
         #     app.kubernetes.io/name: clickhouse
@@ -542,7 +543,7 @@ mysql:
     hostPath: /opt/metaflow-mysql
     hostPathChownContainerEnabled: true
     persistence:
-      storageClass: "-"
+      storageClass: "{{ .Values.global.storageClass }}"
       annotations:
         "helm.sh/resource-policy": keep
       # existingClaim: your-claim-pvc-name

@@ -13,10 +13,8 @@
     resources:
       requests:
         storage: {{ $volume.size | quote }}
-    {{- if (ne "-" $volume.storageClass) }}
-    storageClassName: {{ tpl $volume.storageClass . | quote }}
-    {{- else }}
-    storageClassName: ""
+    {{- if  (tpl $volume.storageClass $) }}
+    storageClassName: {{ tpl $volume.storageClass $ | quote }}
     {{- end }}
     {{- if $volume.selector }}
     selector:
