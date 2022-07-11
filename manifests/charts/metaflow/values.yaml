@@ -14,7 +14,7 @@ global:
     mysql: metaflow
     #grafana: metaflow 
   podManagementPolicy: "OrderedReady"
-  replicas: 1
+  replicas: 1  ## replicas for metaflow-server and clickhouse
   podAntiAffinityLabelSelector: []
   podAntiAffinityTermLabelSelector: []
   podAffinityLabelSelector: []
