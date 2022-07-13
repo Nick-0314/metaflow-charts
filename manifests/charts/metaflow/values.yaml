@@ -116,6 +116,11 @@ server:
       targetPort: 20033
       nodePort: "{{ .Values.global.nodePort.metaflowServerIngester }}"
       protocol: TCP
+    - name: ingester-30033-udp
+      port: 30033
+      targetPort: 20033
+      nodePort: "{{ .Values.global.nodePort.metaflowServerIngester }}"
+      protocol: UDP
     ## Additional ports to open for server service
     additionalPorts: []
 
