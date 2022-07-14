@@ -763,14 +763,52 @@ grafana:
     dashboards:
       enabled: true
       label: grafana_dashboard
-      labelValue: "1"
+      labelValue: "metaflow-templates"
 
       ## Annotations for Grafana dashboard configmaps
       ##
       annotations: {}
       provider:
-        folder: 'MetaFlow-Templates'
+        folder: 'MetaFlow Templates'
         allowUiUpdates: false
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'metaflow-system'
+        orgId: 1
+        folder: 'MetaFlow System'
+        type: file
+        disableDeletion: false
+        allowUiUpdates: false
+        updateIntervalSeconds: 30
+        options:
+          foldersFromFilesStructure: false
+          path: /tmp/metaflow-system-dashboards
+  extraContainers: |
+    - env:
+      - name: METHOD
+        value: WATCH
+      - name: LABEL
+        value: grafana_dashboard
+      - name: LABEL_VALUE
+        value: "metaflow-system"
+      - name: FOLDER
+        value: /tmp/metaflow-system-dashboards
+      - name: RESOURCE
+        value: both
+      - name: SKIP_TLS_VERIFY
+        value: "true"
+      {{- if .Values.sidecar.image.sha }}
+      image: "{{ .Values.sidecar.image.repository }}:{{ .Values.sidecar.image.tag }}@sha256:{{ .Values.sidecar.image.sha }}"
+      {{- else }}
+      image: "{{ .Values.sidecar.image.repository }}:{{ .Values.sidecar.image.tag }}"
+      {{- end }}
+      imagePullPolicy: {{ .Values.sidecar.imagePullPolicy }}
+      name: metaflow-system-dashboard-providers
+      volumeMounts:
+      - mountPath: /tmp/metaflow-system-dashboards
+        name: metaflow-system-dashboards
   extraInitContainers:
     - name: init-custom-plugins
       image: "{{ .Values.global.image.repository }}/metaflow-init-grafana:latest"
@@ -786,18 +824,42 @@ grafana:
   extraEmptyDirMounts: 
     - name: custom-plugins
       mountPath: /var/lib/grafana/plugins
+    - name: metaflow-system-dashboards
+      mountPath: /tmp/metaflow-system-dashboards
+
   datasources: 
    datasources.yaml:
-     apiVersion: 1
-     datasources:
-     - name: MetaFlow
-       type: metaflow-querier-datasource
-       url: 
-       access: proxy
-       isDefault: true
-       jsonData:
-        requestUrl: http://{{ include "metaflow.fullname" . }}-server:20416
-        traceUrl: http://{{ include "metaflow.fullname" . }}-app:20418
+      apiVersion: 1
+      datasources:
+      - name: MetaFlow
+        type: metaflow-querier-datasource
+        url: 
+        access: proxy
+        isDefault: true
+        jsonData:
+          requestUrl: http://{{ include "metaflow.fullname" . }}-server:20416
+          traceUrl: http://{{ include "metaflow.fullname" . }}-app:20418
+      - name: MetaFlow-ClickHouse
+        type: grafana-clickhouse-datasource
+        jsonData:
+          defaultDatabase: default
+          port: 9000
+          server: "{{ $.Release.Name }}-clickhouse"
+          username: default
+        secureJsonData:
+          password: ""
+      - name: MetaFlow-MySQL
+        type: mysql
+        url: "{{ $.Release.Name }}-mysql:30130"
+        database: deepflow
+        user: root
+        password: metaflow
+        jsonData:
+          maxOpenConns: 5
+          maxIdleConns: 5
+          connMaxLifetime: 14400
+        secureJsonData:
+          password: "{{ .Values.global.password.mysql }}"
 
   ingress:
     enabled: false
