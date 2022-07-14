@@ -839,7 +839,7 @@ grafana:
         jsonData:
           requestUrl: http://{{ include "metaflow.fullname" . }}-server:20416
           traceUrl: http://{{ include "metaflow.fullname" . }}-app:20418
-      - name: MetaFlow-ClickHouse
+      - name: "MetaFlow ClickHouse"
         type: grafana-clickhouse-datasource
         jsonData:
           defaultDatabase: default
@@ -848,7 +848,7 @@ grafana:
           username: default
         secureJsonData:
           password: ""
-      - name: MetaFlow-MySQL
+      - name: "MetaFlow MySQL"
         type: mysql
         url: "{{ $.Release.Name }}-mysql:30130"
         database: deepflow
