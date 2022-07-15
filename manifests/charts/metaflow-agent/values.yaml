@@ -18,7 +18,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "metaflow-agent"
 
 podAnnotations: {}
 
@@ -47,9 +47,9 @@ service:
   ##
 
   ports:
-  - name: otel
-    port: 4317
-    targetPort: 4317
+  - name: receive
+    port: 80
+    targetPort: receive
     nodePort: 
     protocol: TCP
 
@@ -71,7 +71,10 @@ service:
 metaflowServerNodeIPS:
 - metaflow-server
 metaflowK8sClusterID: 
-agentGroupID: 
+agentGroupID:
+## This command takes effect when agent-group-config external_agent_http_proxy_enabled=1 is configured using metaflow-ctl
+## Set the port to the agent-group-config port
+externalAgentHttpProxyPort: 38086
 
 metaflowAgentConfig: 
   metaflow-agent.yaml: |

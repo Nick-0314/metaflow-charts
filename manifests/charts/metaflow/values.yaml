@@ -257,7 +257,7 @@ config:
         timeout: 30
       ## clickhouse config
       clickhouse:
-        database: deepflow
+        database: flow_tag
         user: default
         port: {{ .Values.global.nodePort.clickhouse }}
         timeout: 60
@@ -342,7 +342,7 @@ config:
       listen-port: 20416
       # clickhouse config
       clickhouse:
-        database: deepflow
+        database: flow_tag
         user: default
         port: 9000
         timeout: 60
@@ -664,9 +664,9 @@ metaflow-agent:
     ##
 
     ports:
-    - name: otel
-      port: 4317
-      targetPort: 4317
+    - name: receive
+      port: 80
+      targetPort: receive
       nodePort: 
       protocol: TCP
 
@@ -689,6 +689,9 @@ metaflow-agent:
   - metaflow-server
   kubernetesClusterId: 
   agentGroupId: 
+  ## This command takes effect when agent-group-config external_agent_http_proxy_enabled=1 is configured using metaflow-ctl
+  ## Set the port to the agent-group-config port
+  externalAgentHttpProxyPort: 38086
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious

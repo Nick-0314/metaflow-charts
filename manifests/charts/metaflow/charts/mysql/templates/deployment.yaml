@@ -101,7 +101,7 @@ spec:
         - name: data-path
           {{- if eq ( tpl .Values.storageConfig.generateType . )  "persistentVolumeClaim" }}
           persistentVolumeClaim:
-            claimName: {{ .Values.storageConfig.persistence.existingClaim | default "$.Release.Name-data-pvc" }}
+            claimName: {{ .Values.storageConfig.persistence.existingClaim | default (printf "%s-data-pvc" (include "mysql.fullname" . )) }}
           {{- end }}
           {{- if eq ( tpl .Values.storageConfig.generateType . )  "hostPath" }}
           hostPath:

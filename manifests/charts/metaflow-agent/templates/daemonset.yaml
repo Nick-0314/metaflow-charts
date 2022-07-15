@@ -37,8 +37,8 @@ spec:
           image: "{{ tpl .Values.image.repository . }}:{{ tpl .Values.image.tag .}}"
           imagePullPolicy: {{ tpl .Values.image.pullPolicy . }}
           ports:
-            - name: otel
-              containerPort: 4317
+            - name: receive
+              containerPort: {{ tpl (toString .Values.externalAgentHttpProxyPort) . }}
               protocol: TCP
           # livenessProbe:
           #   tcpSocket:
