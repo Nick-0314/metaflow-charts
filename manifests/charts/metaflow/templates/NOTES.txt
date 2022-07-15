@@ -13,8 +13,7 @@ An automated observability platform for cloud-native developers.
 {{ if contains "NodePort" .Values.grafana.service.type }}
 NODE_PORT=$(kubectl get --namespace {{ $.Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ $.Release.Name }}-grafana)
 NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
-echo http://$NODE_IP:$NODE_PORT
-echo "password: {{ tpl .Values.grafana.adminPassword . }}"
+echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:{{ tpl .Values.grafana.adminPassword . }}"
 {{ else if contains "LoadBalancer" .Values.grafana.service.type -}}
 NOTE: It may take a few minutes for the LoadBalancer IP to be available.
      You can watch the status of by running 'kubectl get svc --namespace {{ $.Release.Namespace }} -w {{ $.Release.Name }}-grafana'
