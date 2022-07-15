@@ -847,7 +847,7 @@ grafana:
       - name: "MetaFlow ClickHouse"
         type: grafana-clickhouse-datasource
         jsonData:
-          defaultDatabase: default
+          defaultDatabase: deepflow
           port: 9000
           server: "{{ $.Release.Name }}-clickhouse"
           username: default
