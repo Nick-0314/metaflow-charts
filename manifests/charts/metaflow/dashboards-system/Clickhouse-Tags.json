@@ -130,7 +130,7 @@
           "multi": false,
           "name": "table",
           "options": [],
-          "query": "show tables",
+          "query": "show tables from flow_log",
           "refresh": 1,
           "regex": "",
           "skipUrlSync": false,
