@@ -82,7 +82,7 @@
         "targets": [
           {
             "builderOptions": {
-              "database": "deepflow",
+              "database": "flow_tag",
               "fields": [
                 "*"
               ],
@@ -99,7 +99,7 @@
             },
             "format": 1,
             "queryType": "builder",
-            "rawSql": "SELECT * FROM deepflow.$table LIMIT 1000",
+            "rawSql": "SELECT * FROM flow_tag.$table LIMIT 1000",
             "refId": "A"
           }
         ],
