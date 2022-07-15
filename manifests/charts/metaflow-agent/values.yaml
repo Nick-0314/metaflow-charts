@@ -79,7 +79,7 @@ externalAgentHttpProxyPort: 38086
 metaflowAgentConfig: 
   metaflow-agent.yaml: |
     controller-ips:
-    {{ toYaml $.Values.metaflowServerNodeIPS }}
+    {{ toYaml $.Values.metaflowServerNodeIPS | nindent 4 }}
     {{ if .Values.agentGroupID }}vtap-group-id-request: {{ .Values.agentGroupID }}{{ end }}
     {{ if .Values.metaflowK8sClusterID }}kubernetes-cluster-id: {{ .Values.metaflowK8sClusterID }}{{ end }}
 
