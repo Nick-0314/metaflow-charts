@@ -124,7 +124,7 @@
             "type": "grafana-clickhouse-datasource",
             "uid": "P0F58762DD42522D0"
           },
-          "definition": "show tables",
+          "definition": "show tables from flow_log",
           "hide": 0,
           "includeAll": false,
           "multi": false,
