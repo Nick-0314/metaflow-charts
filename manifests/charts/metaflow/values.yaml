@@ -837,11 +837,13 @@ grafana:
         url: 
         access: proxy
         isDefault: true
+        uid: "MetaFlow"
         jsonData:
           requestUrl: http://{{ include "metaflow.fullname" . }}-server:20416
           traceUrl: http://{{ include "metaflow.fullname" . }}-app:20418
       - name: "MetaFlow ClickHouse"
         type: grafana-clickhouse-datasource
+        uid: "MetaFlow ClickHouse"
         jsonData:
           port: 9000
           server: "{{ $.Release.Name }}-clickhouse"
@@ -854,6 +856,7 @@ grafana:
         database: deepflow
         user: root
         password: metaflow
+        uid: "MetaFlow MySQL"
         jsonData:
           maxOpenConns: 5
           maxIdleConns: 5

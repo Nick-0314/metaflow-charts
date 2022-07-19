@@ -32,7 +32,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "P25242F49033592D3"
+        "uid": "MetaFlow MySQL"
       },
       "fieldConfig": {
         "defaults": {
@@ -83,7 +83,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "P25242F49033592D3"
+            "uid": "MetaFlow MySQL"
           },
           "format": "table",
           "group": [],
@@ -130,7 +130,7 @@
         },
         "datasource": {
           "type": "mysql",
-          "uid": "P25242F49033592D3"
+          "uid": "MetaFlow MySQL"
         },
         "definition": "show tables",
         "hide": 0,
@@ -154,7 +154,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "MySQL Tables",
-  "uid": "lrL7Jgg4k",
+  "uid": "MySQL Tables",
   "version": 1,
   "weekStart": ""
 }

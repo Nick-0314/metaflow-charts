@@ -32,7 +32,7 @@
       {
         "datasource": {
           "type": "grafana-clickhouse-datasource",
-          "uid": "P0F58762DD42522D0"
+          "uid": "MetaFlow ClickHouse"
         },
         "fieldConfig": {
           "defaults": {
@@ -95,7 +95,7 @@
             },
             "datasource": {
               "type": "grafana-clickhouse-datasource",
-              "uid": "P0F58762DD42522D0"
+              "uid": "MetaFlow ClickHouse"
             },
             "format": 1,
             "queryType": "builder",
@@ -122,7 +122,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "P0F58762DD42522D0"
+            "uid": "MetaFlow ClickHouse"
           },
           "definition": "show tables from flow_tag",
           "hide": 0,
@@ -146,7 +146,7 @@
     "timepicker": {},
     "timezone": "",
     "title": "ClickHouse Tags",
-    "uid": "4JjN1RgVz",
+    "uid": "ClickHouse Tags",
     "version": 1,
     "weekStart": ""
   }
