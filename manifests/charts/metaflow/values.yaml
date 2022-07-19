@@ -759,19 +759,6 @@ grafana:
       password: "{{ .Values.global.password.mysql }}"
     plugins:
       allow_loading_unsigned_plugins: metaflow-querier-datasource,metaflow-apptracing-panel,metaflow-topo-panel
-  sidecar:
-    skipTlsVerify: true
-    dashboards:
-      enabled: true
-      label: grafana_dashboard
-      labelValue: "metaflow-templates"
-
-      ## Annotations for Grafana dashboard configmaps
-      ##
-      annotations: {}
-      provider:
-        folder: 'MetaFlow Templates'
-        allowUiUpdates: false
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -785,31 +772,17 @@ grafana:
         updateIntervalSeconds: 30
         options:
           foldersFromFilesStructure: false
-          path: /tmp/metaflow-system-dashboards
-  extraContainers: |
-    - env:
-      - name: METHOD
-        value: WATCH
-      - name: LABEL
-        value: grafana_dashboard
-      - name: LABEL_VALUE
-        value: "metaflow-system"
-      - name: FOLDER
-        value: /tmp/metaflow-system-dashboards
-      - name: RESOURCE
-        value: both
-      - name: SKIP_TLS_VERIFY
-        value: "true"
-      {{- if .Values.sidecar.image.sha }}
-      image: "{{ .Values.sidecar.image.repository }}:{{ .Values.sidecar.image.tag }}@sha256:{{ .Values.sidecar.image.sha }}"
-      {{- else }}
-      image: "{{ .Values.sidecar.image.repository }}:{{ .Values.sidecar.image.tag }}"
-      {{- end }}
-      imagePullPolicy: {{ .Values.sidecar.imagePullPolicy }}
-      name: metaflow-system-dashboard-providers
-      volumeMounts:
-      - mountPath: /tmp/metaflow-system-dashboards
-        name: metaflow-system-dashboards
+          path: /tmp/dashboards/system
+      - name: 'metaflow-templates'
+        orgId: 1
+        folder: 'MetaFlow Templates'
+        type: file
+        disableDeletion: false
+        allowUiUpdates: false
+        updateIntervalSeconds: 30
+        options:
+          foldersFromFilesStructure: false
+          path: /tmp/dashboards/templates
   extraInitContainers:
     - name: init-custom-plugins
       image: "{{ .Values.global.image.repository }}/metaflow-init-grafana:latest"
@@ -817,16 +790,19 @@ grafana:
       command: ['sh']
       args:  
       - '-c'
-      - "cp -raf /metaflow-plugins/* /var/lib/grafana/plugins/"
+      - "cp -raf /metaflow-plugins/* /var/lib/grafana/plugins/;"
+      - "cp -raf /dashboards /tmp/"
       volumeMounts:
       - mountPath: /var/lib/grafana/plugins/
         name: custom-plugins
+      - mountPath: /tmp/dashboards
+        name: metaflow-dashboards
 
   extraEmptyDirMounts: 
     - name: custom-plugins
       mountPath: /var/lib/grafana/plugins
-    - name: metaflow-system-dashboards
-      mountPath: /tmp/metaflow-system-dashboards
+    - name: metaflow-dashboards
+      mountPath: /tmp/dashboards"
 
   datasources: 
    datasources.yaml:
