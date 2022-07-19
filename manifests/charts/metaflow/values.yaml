@@ -802,7 +802,7 @@ grafana:
     - name: custom-plugins
       mountPath: /var/lib/grafana/plugins
     - name: metaflow-dashboards
-      mountPath: /tmp/dashboards"
+      mountPath: /tmp/dashboards
 
   datasources: 
    datasources.yaml:
