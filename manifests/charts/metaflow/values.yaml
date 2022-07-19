@@ -790,8 +790,7 @@ grafana:
       command: ['sh']
       args:  
       - '-c'
-      - "cp -raf /metaflow-plugins/* /var/lib/grafana/plugins/;"
-      - "cp -raf /dashboards /tmp/"
+      - "cp -raf /metaflow-plugins/* /var/lib/grafana/plugins/; cp -raf /dashboards /tmp/"
       volumeMounts:
       - mountPath: /var/lib/grafana/plugins/
         name: custom-plugins
