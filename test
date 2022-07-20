@@ -42,7 +42,7 @@ case "${LOCAL_ARCH}" in
 esac
 
 
-URL="https://metaflow.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/${OSEXT}/${ARCH}/metaflow-ctl"
+URL="https://deepflow.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/${OSEXT}/${ARCH}/deepflow-ctl"
 
 with_arch() {
   printf "\nDownloading %s from %s ...\n" "$NAME" "$ARCH_URL"

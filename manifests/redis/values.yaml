@@ -20,7 +20,7 @@ image:
   tag: "6.2.6"
 hostNetwork: "false"
 dnsPolicy: ClusterFirst
-requirepass: metaflow
+requirepass: deepflow
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""

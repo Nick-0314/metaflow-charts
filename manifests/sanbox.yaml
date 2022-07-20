@@ -1,8 +1,8 @@
 global:
   image:
-    ## Dockerhub Image repository address: metaflowys/metaflow-server
-    ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/metaflowys/metaflow-server
-    repository: registry.cn-beijing.aliyuncs.com/metaflowys
+    ## Dockerhub Image repository address: deepflowys/deepflow-server
+    ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/deepflowys/deepflow-server
+    repository: registry.cn-beijing.aliyuncs.com/deepflowys
   replicas: 2
 
 mysql:
@@ -14,7 +14,7 @@ mysql:
     ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
     ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
     type: hostPath
-    hostPath: /opt/metaflow-455
+    hostPath: /opt/deepflow-455
   nodeAffinityLabelSelector: 
     ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
     ## 如果使用hostPath存储mysql数据，则必须配置nodeAffinityLabelSelector，避免pod漂移导致数据丢失
@@ -36,11 +36,11 @@ clickhouse:
         - key: kubernetes.io/hostname
           operator: In
           values: cn-chengdu.172.16.0.196 
-metaflow-agent:
-  metaflowAgentConfig: 
-    metaflow-agent.yaml: |
+deepflow-agent:
+  deepflowAgentConfig: 
+    deepflow-agent.yaml: |
       controller-ips:
-      - metaflow-server
+      - deepflow-server
       kubernetes-cluster-id: d-01NKgARSKK 
 
 #

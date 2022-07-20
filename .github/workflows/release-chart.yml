@@ -20,9 +20,9 @@ jobs:
 
       - name: Modify chart version
         run: |
-          sed -i "s|000|$(git rev-list --count HEAD)|g" manifests/charts/metaflow/Chart.yaml
-          sed -i "s|000|$(git rev-list --count HEAD)|g" manifests/charts/metaflow-agent/Chart.yaml
-          cp -rf manifests/charts/metaflow-agent manifests/charts/metaflow/charts/
+          sed -i "s|000|$(git rev-list --count HEAD)|g" manifests/charts/deepflow/Chart.yaml
+          sed -i "s|000|$(git rev-list --count HEAD)|g" manifests/charts/deepflow-agent/Chart.yaml
+          cp -rf manifests/charts/deepflow-agent manifests/charts/deepflow/charts/
 
       - name: Configure Git
         run: |
