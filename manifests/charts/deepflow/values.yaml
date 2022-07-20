@@ -71,13 +71,13 @@ server:
   dnsPolicy: "{{ .Values.global.dnsPolicy }}"
   podManagementPolicy: "{{ .Values.global.podManagementPolicy }}"
   service:
-    ## Configuration for Metaflow-server service
+    ## Configuration for deepflow-server service
     ##
     annotations: {}
     labels: {}
     clusterIP: ""
 
-    ## Port for Metaflow-server Service to listen on
+    ## Port for deepflow-server Service to listen on
     ##
 
     ports:
@@ -193,13 +193,13 @@ app:
   hostNetwork:  "{{ .Values.global.hostNetwork }}"
   dnsPolicy: "{{ .Values.global.dnsPolicy }}"
   service:
-    ## Configuration for Metaflow querier service
+    ## Configuration for deepflow querier service
     ##
     annotations: {}
     labels: {}
     clusterIP: ""
 
-    ## Port for Metaflow querier service to listen on
+    ## Port for deepflow querier service to listen on
     ##
     ports:
     - name: app
@@ -211,7 +211,7 @@ app:
       nodePort: 
       protocol: TCP
 
-    ## Additional ports to open for Metaflow querier service
+    ## Additional ports to open for deepflow querier service
     additionalPorts: []
 
     externalIPs: []

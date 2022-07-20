@@ -90,13 +90,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | server.replicas | string | `"{{ .Values.global.replicas }}"` | The replicas of deepflow-server need to be the same as clickhouse |
 | server.dnsPolicy | string | `"{{ .Values.global.dnsPolicy }}"` | DNS policy of deepflow-server |
 | server.hostNetwork | string | `"{{ .Values.global.hostNetwork }}"` | Network mode of deepflow-server |
-| server.nodeAffinityLabelSelector | list | `[]` | The node hard affinity of Metaflow-server and Gloabl is or |
-| server.nodeAffinityTermLabelSelector | list | `[]` | The node soft affinity of Metaflow-server and Gloabl is or |
+| server.nodeAffinityLabelSelector | list | `[]` | The node hard affinity of deepflow-server and Gloabl is or |
+| server.nodeAffinityTermLabelSelector | list | `[]` | The node soft affinity of deepflow-server and Gloabl is or |
 | server.nodeSelector | object | `{}` |  |
-| server.podAffinityLabelSelector | list |  | The pod hard affinity of Metaflow-server and Gloabl is or |
-| server.podAffinityTermLabelSelector | list | `[]` | The pod sort antiaffinity of Metaflow-server and Gloabl is or |
-| server.podAntiAffinityLabelSelector | list |  | he pod hard untiaffinity of Metaflow-server and Gloabl is or |
-| server.podAntiAffinityTermLabelSelector | list | `[]` | he pod sort affinity of Metaflow-server and Gloabl is or |
+| server.podAffinityLabelSelector | list |  | The pod hard affinity of deepflow-server and Gloabl is or |
+| server.podAffinityTermLabelSelector | list | `[]` | The pod sort antiaffinity of deepflow-server and Gloabl is or |
+| server.podAntiAffinityLabelSelector | list |  | he pod hard untiaffinity of deepflow-server and Gloabl is or |
+| server.podAntiAffinityTermLabelSelector | list | `[]` | he pod sort affinity of deepflow-server and Gloabl is or |
 | server.podManagementPolicy | string | `"{{ .Values.global.podManagementPolicy }}"`|  
 | server.resources | object | `{}` |  |
 | server.service | map |  |  |
