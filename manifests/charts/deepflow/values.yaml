@@ -549,7 +549,7 @@ mysql:
       storageClass: "{{ .Values.global.storageClass }}"
       annotations:
         "helm.sh/resource-policy": keep
-      # existingClaim: your-claim-pvc-name
+      #existingClaim: your-claim-pvc-name
       accessMode: ReadWriteOnce
       size: 50Gi 
       
