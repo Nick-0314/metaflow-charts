@@ -48,15 +48,10 @@ jobs:
           fetch-depth: 0
           ref: 'gh-pages'
 
-      - name: Checkout tools repo
-        uses: actions/checkout@v3
-        with:
-          repository: mytting/deepflow-charts
-          path: deepflow-charts
-          ref: 'gh-pages'
-
       - name: run
         run: |
+          gh repo clone cli/cli
+          git checkout -b gh-pages origin/gh-pages
           cp -raf index.yaml deepflow-charts/index.yaml
           cd deepflow-charts/
           git config --global user.name "$GITHUB_ACTOR"
@@ -64,11 +59,4 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/mytting/deepflow-charts
           git add index.yaml
           git commit -am "test"
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
-          directory: deepflow-charts
-         # repositor
+          git push 
