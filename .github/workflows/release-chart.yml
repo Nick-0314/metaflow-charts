@@ -59,9 +59,16 @@ jobs:
         run: |
           cp -raf index.yaml deepflow-charts/index.yaml
           cd deepflow-charts/
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/mytting/deepflow-charts
           git add index.yaml
-          git commit -m "test"
-          git push
+          git commit -am "test"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          directory: deepflow-charts
+         # repositor
