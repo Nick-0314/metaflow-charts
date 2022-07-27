@@ -60,5 +60,5 @@ jobs:
           cp -raf index.yaml deepflow-charts/index.yaml
           cd deepflow-charts/
           git add index.yaml
-          git commit "test"
+          git commit -m "test"
           git push
