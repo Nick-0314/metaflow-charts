@@ -3,6 +3,29 @@ entries:
   deepflow:
   - apiVersion: v2
     appVersion: 6.1.1
+    created: "2022-07-27T08:00:47.432104334Z"
+    dependencies:
+    - name: clickhouse
+      repository: ""
+      version: '*.*.*'
+    - name: mysql
+      repository: ""
+      version: '*.*.*'
+    description: An automated observability platform for cloud-native developers.
+    digest: 2f82a82f163e46e2d20e91a49b9405a7fb77b14351b1143dc83b8598c390d231
+    home: https://github.com/deepflowys/deepflow
+    keywords:
+    - deepflow
+    kubeVersion: '>=1.16.0-0'
+    name: deepflow
+    sources:
+    - https://github.com/deepflowys/deepflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/deepflow-0.1.147/deepflow-0.1.147.tgz
+    version: 0.1.147
+  - apiVersion: v2
+    appVersion: 6.1.1
     created: "2022-07-27T07:59:27.203679113Z"
     dependencies:
     - name: clickhouse
@@ -403,6 +426,22 @@ entries:
     - https://github.com/mytting/metaflow-charts/releases/download/deepflow-0.1.131/deepflow-0.1.131.tgz
     version: 0.1.131
   deepflow-agent:
+  - apiVersion: v2
+    appVersion: 6.1.1
+    created: "2022-07-27T08:00:47.557167922Z"
+    description: An automated observability platform for cloud-native developers.
+    digest: 005864495b1ccc874475330fc9ee4834ac1638deee9268961ef8f3f5555d2c3c
+    home: https://github.com/deepflowys/deepflow
+    keywords:
+    - deepflow
+    kubeVersion: '>=1.16.0-0'
+    name: deepflow-agent
+    sources:
+    - https://github.com/deepflowys/deepflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/deepflow-agent-0.1.147/deepflow-agent-0.1.147.tgz
+    version: 0.1.147
   - apiVersion: v2
     appVersion: 6.1.1
     created: "2022-07-27T07:59:27.354062896Z"
@@ -4357,4 +4396,4 @@ entries:
     urls:
     - https://github.com/mytting/metaflow-charts/releases/download/metaflow-agent-0.1.33/metaflow-agent-0.1.33.tgz
     version: 0.1.33
-generated: "2022-07-27T07:59:27.362805901Z"
+generated: "2022-07-27T08:00:47.559810541Z"
