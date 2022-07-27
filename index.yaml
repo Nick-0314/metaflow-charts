@@ -3,6 +3,29 @@ entries:
   deepflow:
   - apiVersion: v2
     appVersion: 6.1.1
+    created: "2022-07-27T07:50:29.584707693Z"
+    dependencies:
+    - name: clickhouse
+      repository: ""
+      version: '*.*.*'
+    - name: mysql
+      repository: ""
+      version: '*.*.*'
+    description: An automated observability platform for cloud-native developers.
+    digest: a62445d4321619237fef1700643c3a85393520bad91583180063964a6232fc70
+    home: https://github.com/deepflowys/deepflow
+    keywords:
+    - deepflow
+    kubeVersion: '>=1.16.0-0'
+    name: deepflow
+    sources:
+    - https://github.com/deepflowys/deepflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/deepflow-0.1.145/deepflow-0.1.145.tgz
+    version: 0.1.145
+  - apiVersion: v2
+    appVersion: 6.1.1
     created: "2022-07-27T07:41:50.927855986Z"
     dependencies:
     - name: clickhouse
@@ -357,6 +380,22 @@ entries:
     - https://github.com/mytting/metaflow-charts/releases/download/deepflow-0.1.131/deepflow-0.1.131.tgz
     version: 0.1.131
   deepflow-agent:
+  - apiVersion: v2
+    appVersion: 6.1.1
+    created: "2022-07-27T07:50:29.7260195Z"
+    description: An automated observability platform for cloud-native developers.
+    digest: 7307ba79d5fd2fbdd18f68775f5cdd3cfe4e99ee8c5855d86ee86ec1d4535b34
+    home: https://github.com/deepflowys/deepflow
+    keywords:
+    - deepflow
+    kubeVersion: '>=1.16.0-0'
+    name: deepflow-agent
+    sources:
+    - https://github.com/deepflowys/deepflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/deepflow-agent-0.1.145/deepflow-agent-0.1.145.tgz
+    version: 0.1.145
   - apiVersion: v2
     appVersion: 6.1.1
     created: "2022-07-27T07:41:51.194986642Z"
@@ -4279,4 +4318,4 @@ entries:
     urls:
     - https://github.com/mytting/metaflow-charts/releases/download/metaflow-agent-0.1.33/metaflow-agent-0.1.33.tgz
     version: 0.1.33
-generated: "2022-07-27T07:41:51.197979484Z"
+generated: "2022-07-27T07:50:29.728360569Z"
