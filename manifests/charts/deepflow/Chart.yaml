@@ -12,17 +12,17 @@ home: https://github.com/deepflowys/deepflow
 keywords:
   - deepflow
 dependencies:
-- name: deepflow-agent
-  repository: ""
-  version: '*.*.*'
-  condition: deepflow-agent.enabled
+# - name: deepflow-agent
+#   repository: ""
+#   version: '*.*.*'
+#   condition: deepflow-agent.enabled
 - name: clickhouse
   repository: ""
   version: '*.*.*'
 - name: mysql
   repository: ""
   version: '*.*.*'
-- name: grafana
-  version: "6.32.*"
-  repository: https://grafana.github.io/helm-charts
-  condition: grafana.enabled
+# - name: grafana
+#   version: "6.32.*"
+#   repository: https://grafana.github.io/helm-charts
+#   condition: grafana.enabled

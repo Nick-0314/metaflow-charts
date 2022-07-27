@@ -5,6 +5,10 @@ metadata:
   labels:
     {{- include "deepflow-server.labels" . | nindent 4 }}
 spec:
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate
   replicas: {{ tpl .Values.server.replicas . }}
   podManagementPolicy: {{ tpl .Values.server.podManagementPolicy . }}
   serviceName: {{ include "deepflow.fullname" . }}-server-headless
@@ -13,12 +17,17 @@ spec:
       {{- include "deepflow-server.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/customConfig: {{ sha256sum (print (tpl (toYaml .Values.configmap) $)) }}
       labels:
         {{- include "deepflow-server.selectorLabels" . | nindent 8 }}
+        {{- range $index, $values := .Values.server.featureFlag }}
+        {{- (printf "app.deepflow.yunshan.net/feature/%s" $values) | quote | nindent 8 }}: true
+        {{- end }}
     spec:
       hostNetwork: {{ tpl .Values.server.hostNetwork . }}
       dnsPolicy: {{ tpl .Values.server.dnsPolicy . }}
@@ -33,7 +42,7 @@ spec:
         - name: deepflow-server
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ tpl .Values.image.server.repository . }}:{{ tpl .Values.image.server.tag . }}"
+          image: "{{ tpl .Values.image.server.repository . }}:{{ tpl (toString .Values.image.server.tag) . }}"
           imagePullPolicy: "{{ tpl .Values.image.server.pullPolicy . }}"
           ports:
             - name: server
@@ -81,6 +90,8 @@ spec:
                 fieldPath: metadata.name
           - name: TZ
             value: "{{ tpl .Values.timezone . }}"
+          - name: FEATURE_FLAG_FOR_DEEPFLOW
+            value: "{{ join "," .Values.server.featureFlag }}"
         - image: "{{ tpl .Values.image.elector.repository . }}:{{ tpl .Values.image.elector.tag . }}"
           imagePullPolicy: "{{ tpl .Values.image.elector.pullPolicy . }}"
           name: elector

@@ -70,6 +70,9 @@ server:
   hostNetwork:  "{{ .Values.global.hostNetwork }}"
   dnsPolicy: "{{ .Values.global.dnsPolicy }}"
   podManagementPolicy: "{{ .Values.global.podManagementPolicy }}"
+  featureFlag: 
+  - aa
+  - bb
   service:
     ## Configuration for deepflow-server service
     ##

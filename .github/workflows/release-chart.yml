@@ -40,3 +40,4 @@ jobs:
           charts_dir: manifests/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          charts_repo_url: "https://github.com/mytting/deepflow-charts"
