@@ -3,6 +3,29 @@ entries:
   deepflow:
   - apiVersion: v2
     appVersion: 6.1.1
+    created: "2022-07-27T07:12:11.968113581Z"
+    dependencies:
+    - name: clickhouse
+      repository: ""
+      version: '*.*.*'
+    - name: mysql
+      repository: ""
+      version: '*.*.*'
+    description: An automated observability platform for cloud-native developers.
+    digest: e94ab31bff7c11f01f2b9faaba49896e926081d7f8c94ae101a16610b6a2ec8e
+    home: https://github.com/deepflowys/deepflow
+    keywords:
+    - deepflow
+    kubeVersion: '>=1.16.0-0'
+    name: deepflow
+    sources:
+    - https://github.com/deepflowys/deepflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/deepflow-0.1.138/deepflow-0.1.138.tgz
+    version: 0.1.138
+  - apiVersion: v2
+    appVersion: 6.1.1
     created: "2022-07-22T03:00:15.556455481Z"
     dependencies:
     - condition: deepflow-agent.enabled
@@ -219,6 +242,22 @@ entries:
     - https://github.com/mytting/metaflow-charts/releases/download/deepflow-0.1.131/deepflow-0.1.131.tgz
     version: 0.1.131
   deepflow-agent:
+  - apiVersion: v2
+    appVersion: 6.1.1
+    created: "2022-07-27T07:12:12.087448327Z"
+    description: An automated observability platform for cloud-native developers.
+    digest: 1916b4569bbc5c7e5a493883e53cc3f483d37b826f99d42ee88a94d3d15a7cce
+    home: https://github.com/deepflowys/deepflow
+    keywords:
+    - deepflow
+    kubeVersion: '>=1.16.0-0'
+    name: deepflow-agent
+    sources:
+    - https://github.com/deepflowys/deepflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/deepflow-agent-0.1.138/deepflow-agent-0.1.138.tgz
+    version: 0.1.138
   - apiVersion: v2
     appVersion: 6.1.1
     created: "2022-07-22T03:00:15.657082139Z"
@@ -4045,4 +4084,4 @@ entries:
     urls:
     - https://github.com/mytting/metaflow-charts/releases/download/metaflow-agent-0.1.33/metaflow-agent-0.1.33.tgz
     version: 0.1.33
-generated: "2022-07-22T03:00:15.660043691Z"
+generated: "2022-07-27T07:12:12.095249987Z"
