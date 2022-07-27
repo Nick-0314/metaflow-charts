@@ -48,11 +48,17 @@ jobs:
           fetch-depth: 0
           ref: 'gh-pages'
 
-      - name: Push files and tag
-        uses: Amraneze/push-to-protected-branch@v1.5.0
+      - name: Checkout tools repo
+        uses: actions/checkout@v3
         with:
           repository: mytting/deepflow-charts
-          branch_name: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_message: 'ci: build version v${{ steps.version.outputs.TAG }}'
-          files_to_commit: 'index.yaml'
+          path: deepflow-charts
+          ref: 'gh-pages'
+
+      - name: run
+        run: |
+          cp -raf index.yaml deepflow-charts/index.yaml
+          cd deepflow-charts/
+          git add index.yaml
+          git commit "test"
+          git push
