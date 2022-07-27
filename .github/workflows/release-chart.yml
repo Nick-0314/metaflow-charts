@@ -41,3 +41,18 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           charts_repo_url: "https://github.com/mytting/deepflow-charts"
+      
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: 'gh-pages'
+
+      - name: Push files and tag
+        uses: Amraneze/push-to-protected-branch@latest
+        with:
+          repository: mytting/deepflow-charts
+          branch_name: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: 'ci: build version v${{ steps.version.outputs.TAG }}'
+          files_to_commit: 'index.yaml'
