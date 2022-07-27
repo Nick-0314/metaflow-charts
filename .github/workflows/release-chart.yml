@@ -50,7 +50,7 @@ jobs:
 
       - name: run
         run: |
-          gh repo clone cli/cli
+          gh repo clone mytting/deepflow-charts
           git checkout -b gh-pages origin/gh-pages
           cp -raf index.yaml deepflow-charts/index.yaml
           cd deepflow-charts/
@@ -60,3 +60,5 @@ jobs:
           git add index.yaml
           git commit -am "test"
           git push 
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
