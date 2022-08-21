@@ -42,23 +42,23 @@ jobs:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           charts_repo_url: "https://github.com/mytting/deepflow-charts"
       
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: 'gh-pages'
+      # - name: Checkout
+      #   uses: actions/checkout@v3
+      #   with:
+      #     fetch-depth: 0
+      #     ref: 'gh-pages'
 
-      - name: run
-        run: |
-          gh repo clone mytting/deepflow-charts
-          cp -raf index.yaml deepflow-charts/index.yaml
-          cd deepflow-charts/
-          git checkout -b gh-pages origin/gh-pages
-          git config --global user.name "action"
-          git config --global user.email "$action@users.noreply.github.com"
-          git remote set-url --push origin https://your_username:${{ secrets.PUSH_SECRET }}@github.com/mytting/deepflow-charts
-          git add index.yaml
-          git commit -am "test"
-          git push 
-        env:
-          GH_TOKEN: ${{ secrets.PUSH_SECRET }}
+      # - name: run
+      #   run: |
+      #     gh repo clone mytting/deepflow-charts
+      #     cp -raf index.yaml deepflow-charts/index.yaml
+      #     cd deepflow-charts/
+      #     git checkout -b gh-pages origin/gh-pages
+      #     git config --global user.name "action"
+      #     git config --global user.email "$action@users.noreply.github.com"
+      #     git remote set-url --push origin https://your_username:${{ secrets.PUSH_SECRET }}@github.com/mytting/deepflow-charts
+      #     git add index.yaml
+      #     git commit -am "test"
+      #     git push 
+      #   env:
+      #     GH_TOKEN: ${{ secrets.PUSH_SECRET }}

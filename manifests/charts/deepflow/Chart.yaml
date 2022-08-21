@@ -22,6 +22,9 @@ dependencies:
 - name: mysql
   repository: ""
   version: '*.*.*'
+maintainers:
+- email: jianchang@yunshan.net
+  name: DeepFlow
 # - name: grafana
 #   version: "6.32.*"
 #   repository: https://grafana.github.io/helm-charts
