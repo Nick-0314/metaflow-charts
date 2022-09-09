@@ -41,7 +41,13 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           charts_repo_url: "https://github.com/mytting/deepflow-charts"
-      
+
+      - name: list
+        run: |
+          ls
+          ls manifests/
+
+
       # - name: Checkout
       #   uses: actions/checkout@v3
       #   with:
