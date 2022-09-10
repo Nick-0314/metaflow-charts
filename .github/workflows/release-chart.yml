@@ -45,8 +45,8 @@ jobs:
 
       - name: list
         run: |
-          ls
-          ls .deploy/
+          ls -a
+          ls .cr-release-packages
           ls manifests/
 
 
