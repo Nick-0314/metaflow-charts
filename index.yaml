@@ -3,6 +3,32 @@ entries:
   deepflow:
   - apiVersion: v2
     appVersion: 6.1.1
+    created: "2022-09-10T00:16:18.026555124Z"
+    dependencies:
+    - name: clickhouse
+      repository: ""
+      version: '*.*.*'
+    - name: mysql
+      repository: ""
+      version: '*.*.*'
+    description: An automated observability platform for cloud-native developers.
+    digest: 90bb72c0b62f519a3f75c280d6bfcd91ba282651b05ee25aecc3e205ee821ddf
+    home: https://github.com/deepflowys/deepflow
+    keywords:
+    - deepflow
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: jianchang@yunshan.net
+      name: DeepFlow
+    name: deepflow
+    sources:
+    - https://github.com/deepflowys/deepflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/deepflow-0.1.159/deepflow-0.1.159.tgz
+    version: 0.1.159
+  - apiVersion: v2
+    appVersion: 6.1.1
     created: "2022-09-09T23:50:05.876309075Z"
     dependencies:
     - name: clickhouse
@@ -642,6 +668,22 @@ entries:
     - https://github.com/mytting/metaflow-charts/releases/download/deepflow-0.1.131/deepflow-0.1.131.tgz
     version: 0.1.131
   deepflow-agent:
+  - apiVersion: v2
+    appVersion: 6.1.1
+    created: "2022-09-10T00:16:18.169286723Z"
+    description: An automated observability platform for cloud-native developers.
+    digest: c6ad7e11233018f681d1f6f3fea7c5d76a8702d9839ec3fca6cb477cb61960d0
+    home: https://github.com/deepflowys/deepflow
+    keywords:
+    - deepflow
+    kubeVersion: '>=1.16.0-0'
+    name: deepflow-agent
+    sources:
+    - https://github.com/deepflowys/deepflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/deepflow-agent-0.1.159/deepflow-agent-0.1.159.tgz
+    version: 0.1.159
   - apiVersion: v2
     appVersion: 6.1.1
     created: "2022-09-09T23:50:06.007242025Z"
@@ -4756,4 +4798,4 @@ entries:
     urls:
     - https://github.com/mytting/metaflow-charts/releases/download/metaflow-agent-0.1.33/metaflow-agent-0.1.33.tgz
     version: 0.1.33
-generated: "2022-09-09T23:50:06.009704969Z"
+generated: "2022-09-10T00:16:18.178637695Z"
