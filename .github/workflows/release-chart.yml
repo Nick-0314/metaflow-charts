@@ -83,3 +83,4 @@ jobs:
           repository: labring/cluster-image
           body: |
             /imagebuild_apps deepflow stable
+          token: "${{ secrets.PUSH_SECRET }}"
