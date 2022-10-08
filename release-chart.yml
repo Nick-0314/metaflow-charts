@@ -1,0 +1,100 @@
+# name: Release Charts
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+env:
+  LTS_BRANCH: "6.10.1"
+
+# jobs:
+#   # release:
+#   #   # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
+#   #   # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+#   #   permissions:
+#   #     contents: write
+#   #   runs-on: ubuntu-latest
+#   #   steps:
+#   #     - name: Checkout
+#   #       uses: actions/checkout@v3
+#   #       with:
+#   #         fetch-depth: 0
+
+#   #     - name: Modify chart version
+#   #       run: |
+#   #         sed -i "s|000|$(git rev-list --count HEAD)|g" manifests/charts/deepflow/Chart.yaml
+#   #         sed -i "s|000|$(git rev-list --count HEAD)|g" manifests/charts/deepflow-agent/Chart.yaml
+#   #         cp -rf manifests/charts/deepflow-agent manifests/charts/deepflow/charts/
+
+#   #     - name: Configure Git
+#   #       run: |
+#   #         git config user.name "$GITHUB_ACTOR"
+#   #         git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+#   #     - name: Install Helm
+#   #       uses: azure/setup-helm@v1
+#   #       with:
+#   #         version: v3.8.1
+
+#   #     - name: Run chart-releaser
+#   #       uses: helm/chart-releaser-action@v1.4.0
+#   #       with:
+#   #         charts_dir: manifests/charts
+#   #       env:
+#   #         CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+#   #         charts_repo_url: "https://github.com/mytting/deepflow-charts"
+
+
+#   #     - name: list
+#   #       run: |
+#   #         ls -a
+#   #         ls .cr-release-packages
+#   #         ls manifests/
+
+
+#       # - name: Checkout
+#       #   uses: actions/checkout@v3
+#       #   with:
+#       #     fetch-depth: 0
+#       #     ref: 'gh-pages'
+
+#       # - name: run
+#       #   run: |
+#       #     gh repo clone mytting/deepflow-charts
+#       #     cp -raf index.yaml deepflow-charts/index.yaml
+#       #     cd deepflow-charts/
+#       #     git checkout -b gh-pages origin/gh-pages
+#       #     git config --global user.name "action"
+#       #     git config --global user.email "$action@users.noreply.github.com"
+#       #     git remote set-url --push origin https://your_username:${{ secrets.PUSH_SECRET }}@github.com/mytting/deepflow-charts
+#       #     git add index.yaml
+#       #     git commit -am "test"
+#       #     git push 
+#       #   env:
+#       #     GH_TOKEN: ${{ secrets.PUSH_SECRET }}
+
+#   # to-stable:
+#   #   name: To Stable
+#   #   runs-on: ubuntu-latest
+#   #   if: startsWith(github.ref, 'refs/tags/v') && !startsWith(github.ref, 'refs/tags/v6.1.8.') #### to stable
+#   #   steps:
+#   #     - name: Success Commit
+#   #       run: |
+#   #         echo ${{ github.ref_name }}
+#   #         echo "to stable"
+
+
+#   # to-lts:
+#   #   name: To LTS
+#   #   runs-on: ubuntu-latest
+#   #   if: startsWith(github.ref, 'refs/tags/v6.1.8') || startsWith(github.ref, 'refs/tags/v6.1.8.') #### to lts
+#   #   steps:
+#   #     - name: Success Commit
+#   #       run: |
+#   #         echo ${{ github.ref_name }}
+#   #         echo "to lts"
+
+
+  
