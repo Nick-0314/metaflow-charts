@@ -3,6 +3,36 @@ entries:
   deepflow:
   - apiVersion: v2
     appVersion: 6.1.1
+    created: "2022-10-08T02:50:55.568341718Z"
+    dependencies:
+    - name: clickhouse
+      repository: ""
+      version: '*.*.*'
+    - name: mysql
+      repository: ""
+      version: '*.*.*'
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: '*.*.*'
+    description: An automated observability platform for cloud-native developers.
+    digest: bc1a63cfd5e59d178c3f0d8256480f2e9ff0e20afd49079219b83a9acf75fbff
+    home: https://github.com/deepflowys/deepflow
+    keywords:
+    - deepflow
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: jianchang@yunshan.net
+      name: DeepFlow
+    name: deepflow
+    sources:
+    - https://github.com/deepflowys/deepflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/deepflow-0.1.162/deepflow-0.1.162.tgz
+    version: 0.1.162
+  - apiVersion: v2
+    appVersion: 6.1.1
     created: "2022-10-08T02:08:07.185864024Z"
     dependencies:
     - name: clickhouse
@@ -724,6 +754,22 @@ entries:
     - https://github.com/mytting/metaflow-charts/releases/download/deepflow-0.1.131/deepflow-0.1.131.tgz
     version: 0.1.131
   deepflow-agent:
+  - apiVersion: v2
+    appVersion: 6.1.1
+    created: "2022-10-08T02:50:55.687359349Z"
+    description: An automated observability platform for cloud-native developers.
+    digest: 2ed5dd84280131b0e2038085116b3c9b80d2c8d46de7ca84632e2fcddb1b2b0b
+    home: https://github.com/deepflowys/deepflow
+    keywords:
+    - deepflow
+    kubeVersion: '>=1.16.0-0'
+    name: deepflow-agent
+    sources:
+    - https://github.com/deepflowys/deepflow
+    type: application
+    urls:
+    - https://github.com/mytting/metaflow-charts/releases/download/deepflow-agent-0.1.162/deepflow-agent-0.1.162.tgz
+    version: 0.1.162
   - apiVersion: v2
     appVersion: 6.1.1
     created: "2022-10-08T02:08:07.301254414Z"
@@ -4886,4 +4932,4 @@ entries:
     urls:
     - https://github.com/mytting/metaflow-charts/releases/download/metaflow-agent-0.1.33/metaflow-agent-0.1.33.tgz
     version: 0.1.33
-generated: "2022-10-08T02:08:07.303308646Z"
+generated: "2022-10-08T02:50:55.689091347Z"
