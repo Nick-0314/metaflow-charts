@@ -70,3 +70,16 @@ jobs:
       #     git push 
       #   env:
       #     GH_TOKEN: ${{ secrets.PUSH_SECRET }}
+
+
+  add-tips:
+    name: Auto add tips
+    runs-on: ubuntu-latest
+    steps:
+      - name: Success Commit
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: 78
+          repository: labring/cluster-image
+          body: |
+            /imagebuild_apps deepflow stable
